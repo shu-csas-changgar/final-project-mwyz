@@ -72,8 +72,8 @@ export class Button extends Component {
             style = hoverStyle;
         }
 
-        return(<div style={defaultStyle}>
-            <button style={style} onMouseEnter={this.hoverChange} onMouseLeave={this.hoverExit}>{this.props.title}</button>
+        return(<div style={this.props.style || defaultStyle}>
+            <button style={style} onClick={this.props.onClick} onMouseEnter={this.hoverChange} onMouseLeave={this.hoverExit}>{this.props.title}</button>
         </div>);
     }
 

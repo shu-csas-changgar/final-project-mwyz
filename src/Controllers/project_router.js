@@ -5,7 +5,7 @@ const app = express();
 
 app.get('/' , (req, res)  =>{
     var list = [1,2,3];
-    res.json(list)
+    res.json(list);
 });
 
 const port = provess.env.PORT || 5000;

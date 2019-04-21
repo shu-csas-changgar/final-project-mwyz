@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from './Button';
 
 const navBarDefaultStyle = {
+    float: 'right',
     display:"flex",
     flexDirection: "row",
     justifyContent: "center",
