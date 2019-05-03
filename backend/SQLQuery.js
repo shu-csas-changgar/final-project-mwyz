@@ -133,6 +133,8 @@ class Query{
   
   }
 
+
+
   //////////////////////////////////////
   // END NEW STUFF 
 
@@ -204,6 +206,8 @@ class Query{
     var deviceTypeid = this.getQuery(this.type2id(deviceType));
     this.runQuery("update abc.inventory set required = required + 1 where abc.inventory.DeviceTypeID=" + deviceTypeid.toString()+";");
   }
+
+  
 
   type2id(deviceType){return "select devicetypeid from devicetypes where deviceType="+deviceType+";";}
 
