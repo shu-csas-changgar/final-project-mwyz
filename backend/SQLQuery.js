@@ -1,6 +1,63 @@
+/*connect to Server -> run query -> get results 
+link the function to the GUI 
+
+adding reservations
+rooms & reservation tables 
+
+city country deviceassignments devices employee invent office vendor 
+
+
+we have laptops, phones, smartrooms, printers, desktops, displays, cameras
+inventory table  
+add Components = smartsboard, smartpen, camera        
+
+devices table
+smartroom under devices 
+
+
+
+
+reservation  table 
+deviceID 
+employeeID 
+Date 
+number of people (maximum capacity) 
+availability (possible maintenance)
+
+
+maintenance table 
+deviceID 
+deviceTYPE 
+employeeID (who to return to or notify)
+problem string
+Components (what item is the issue, could be projector from smartroom)  
+Price (changing batteries for example)
+not available 
+
+
+
+
+we need Deactivate/Remove methods 
+
+every function will return a string; check with mysql 
+
+
+*/
+
+
+
+
+
+
+
+
 class Query{
   constructor(user, password, database='abc', host="localhost") {
     var mysql = require('mysql');
+
+    
+
+
 
     this.con = mysql.createConnection({
     host: host,
@@ -42,6 +99,29 @@ class Query{
     var cityid = 5;
     this.runQuery("insert into abc.city values("+cityid.toString()+","+"\'"+city+"\'"+","+zip+","+ "\'"+datetime+"\'"+");");
   }
+
+
+  // NEW STUFF BY MATTHEW KIMOTHY
+  insert_reservation(deviceid, empid, officeid, capacity, availability, duration){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0,8);
+    this.runQuery("insert into abc.reservation values(" + deviceid.toString() + "," + empid.toString()+ "," + officeid.toString()
+     + "," + capacity.toString() + "," + availability.toString() + "," + duration.toString() + "," + "\'" + datetime + "\'" + ");" );
+  }
+
+
+
+  insert_maintenance(deviceid, devicetype, empid, issue, components, price){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    this.runQuery("insert into abc.maintenance values(" + deviceid.toString() + "," + deviceTypeid.toString() + "," + empid.toString()
+  + "," + issue + "," + components + "," + price.toString() + "," + "\'" + datetime + "\'" + ");" );
+  }
+
+  // END NEW STUFF 
+
+
+
 
   insert_country(country){
     var dt = new Date();
