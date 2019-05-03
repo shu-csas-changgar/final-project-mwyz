@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import './App.css';
 import { Button } from './components/Button';
 import { NavBar } from './components/NavBar';
-import { LoginModal } from './components/LoginModal';
+import { LoginModal } from './components/LoginModal'
+import { Body } from './components/body';
+
 
 const headerStyle = {
   width: '100%',
@@ -26,8 +28,10 @@ class App extends Component {
     this.state = {
       show: false,
       loggedIn: true,
+      tab: 5,
     }
     this.changeShow = this.changeShow.bind(this);
+    this.changeTab = this.changeTab.bind(this);
   }
 
   changeShow() {
@@ -35,21 +39,36 @@ class App extends Component {
     this.setState({
       show: bool,
     })
-
   } 
+
+  changeTab(x) {
+    if (x)
+    {
+      this.setState({
+        tab: x,
+      })
+    } else 
+    {
+      this.setState({
+        tab: 0,
+      })
+    }
+    
+  }
 
   render() {
     if (this.state.loggedIn)
     {
       return (
-        <body>
+        <div>
           <div className="App">
             <div style={headerStyle}>
-                <NavBar />
-                <Button style={homeButtonStyle} title="home"/>
+                <NavBar onClick={this.changeTab} tab={this.state.tab}/>
+                <Button style={homeButtonStyle} onClick={this.changeTab} tab={this.state.tab} title="home"/>
             </div>
+            <Body tab={this.state.tab}/>
         </div>
-        </body>
+        </div>
       );
     } else
     {

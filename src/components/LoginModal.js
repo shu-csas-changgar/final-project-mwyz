@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Button } from './Button';
 
-const navBarDefaultStyle = {
-    display:"flex",
-    flexDirection: "column",
-    justifyContent: "center",
+const defaultButtonStyle = {
+    height: 100,
+    width: '100%',
+    justifyContent: 'center'
 }
 
 const backdropStyle = {
@@ -25,6 +25,14 @@ const modalStyle = {
     margin: '0 auto',
     padding: 30,
     position: 'relative',
+    display: "flex",
+    flexDirection: "column",
+
+}
+
+const inputStyle = {
+    textAlign: 'left',
+    padding: 10,
 }
 
 export class LoginModal extends Component {
@@ -38,9 +46,17 @@ export class LoginModal extends Component {
         {
             return (<div style={backdropStyle}>
                 <div style={modalStyle}>
-                  <input type="text" placeholder="username"/>
-                  <input type="password" placeholder="password"/>
-                  <button onClick={this.props.onClose}>Login</button>
+                    <div style={inputStyle}>
+                        Username:<br/>
+                        <input type="text" placeholder="username"/>
+                    </div>
+                    <div style={inputStyle}>
+                        Password:<br/>
+                        <input type="password" placeholder="password"/>
+                    </div>
+                    <div style={defaultButtonStyle}>
+                        <button  onClick={this.props.onClose}>Login</button>
+                    </div>
                 </div>
             </div>);
         } else 
