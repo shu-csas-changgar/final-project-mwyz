@@ -102,6 +102,7 @@ class Query{
 
 
   // NEW STUFF BY MATTHEW KIMOTHY
+  ////////////////////////////////////////
   insert_reservation(deviceid, empid, officeid, capacity, availability, duration){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0,8);
@@ -118,6 +119,21 @@ class Query{
   + "," + issue + "," + components + "," + price.toString() + "," + "\'" + datetime + "\'" + ");" );
   }
 
+
+  delete_reservation(reservation){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    this.runQuery("delete from abc.reservation where(" + reservation.toString() + "\'" + datetime + "\'" + ");");
+  }
+  
+  delete_device(deviceid){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    this.runQuery("delete from abc.reservation where(" + deviceid.toString() + "\'" + datetime + "\'" + ");");
+  
+  }
+
+  //////////////////////////////////////
   // END NEW STUFF 
 
 
