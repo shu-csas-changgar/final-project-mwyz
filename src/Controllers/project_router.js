@@ -1,4 +1,4 @@
-const express = requre('express');
+const express = require('express');
 const path = require('path');
 
 const app = express();
@@ -8,7 +8,7 @@ app.get('/' , (req, res)  =>{
     res.json(list);
 });
 
-const port = provess.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 app.listen(port);
 
 console.log('App is listening on port ' + port);
