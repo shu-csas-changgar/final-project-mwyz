@@ -159,11 +159,18 @@ class Query{
     this.runQuery("delete from abc.reservation where(" + reservation.toString() + "\'" + datetime + "\'" + ");");
   }
   
+delete_city(city){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    this.runQuery("delete from abc.city where(" + city.toString() + "\'" + datetime + "\'" + ");");
+
+
+}
+
   delete_device(deviceid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
     this.runQuery("delete from abc.reservation where(" + deviceid.toString() + "\'" + datetime + "\'" + ");");
-  
   }
 
 
@@ -211,8 +218,10 @@ class Query{
   }
 }
 
-var C = new Query('root', '');
+var C = new Query('root', 'password');
 // console.log(C.getQuery(C.type2id('sgdg')));
 console.log(C.select(["a", "b", "c"], "alphabets"));
 console.log(C.join(["e.firstname", "e.lastname", "d.deviceid", "e.employeeid"],
 ["employee e", "device d", "office o"], ["e.employeeid = d.employeeid", "e.employeeid = o.officeid"], ["e.employeeid = 1", "o.officeid = 4"]))
+
+C.insert_country("United States");
