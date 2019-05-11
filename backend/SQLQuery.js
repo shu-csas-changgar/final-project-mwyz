@@ -145,3 +145,5 @@ class Query{
     return query;
   }
 }
+
+module.exports = Query; 

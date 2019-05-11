@@ -20,6 +20,10 @@ function delete_city(city){
     return "delete from abc.city where city.Name =" + "'" + city.toString() +"'";
 }
 
+
+
+
+
    var sql = insert_city("Wayne", "07470");
   //var sql = delete_city("Wayne");
     console.log(sql);
