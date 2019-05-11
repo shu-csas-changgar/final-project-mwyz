@@ -1,7 +1,4 @@
-
-
 class SQLConnection{
-
   constructor(user="root", password="password", database='abc', host="localhost") {
       var mysql = require('mysql');
       this.database = database;
@@ -14,10 +11,9 @@ class SQLConnection{
   }
 
   getQuery(query){
-    console.log(query);
     this.con.connect(function(err) {
       if (err) throw err;
-      this.con.query(query, function (err, result) {
+      con.query(query, function (err, result) {
         if (err) throw err;
         return result;
       });
@@ -33,16 +29,8 @@ class SQLConnection{
       });
     });
   }
-
-
-
 }
 
-
-const User = require('./SQLQuery.js');
-
-let user = new User();
-
-var c = new SQLConnection();
-
-console.log(c.getQuery(user.select("*", "city")));
+const Query = require('./SQLQuery.js');
+let Q = new Query();
+console.log(Q.select("*", 'city'));

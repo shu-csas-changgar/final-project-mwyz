@@ -1,5 +1,9 @@
 class Query{
   //phone - string
+  constructor(database='abc'){
+    this.database = database;
+  }
+
   create_new_user(empid, fname, lname, email, phone, officeid, password, address, cityid, countryid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
@@ -94,6 +98,10 @@ class Query{
   getNewVendorID(){ return "select max(v.vendorid) from abc.vendor v;";}
 
   select(cols, table){
+    if(cols == "*"){
+      return "select * from " + this.database +"."+ table +";";
+    }
+
     var query = "select ";
     var id = table.substr(0,2);
     for(var i = 0; i < cols.length-1; i++){
@@ -146,4 +154,6 @@ class Query{
   }
 }
 
-module.exports = Query; 
+var Q = new Query();
+console.log(Q.select("*", "city"));
+module.exports = Query;
