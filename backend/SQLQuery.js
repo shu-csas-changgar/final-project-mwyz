@@ -1,105 +1,70 @@
-/*connect to Server -> run query -> get results
-link the function to the GUI
-adding reservations
-rooms & reservation tables
-city country deviceassignments devices employee invent office vendor
-we have laptops, phones, smartrooms, printers, desktops, displays, cameras
-inventory table
-add Components = smartsboard, smartpen, camera
-devices table
-smartroom under devices
-reservation  table
-deviceID
-employeeID
-Date
-number of people (maximum capacity)
-availability (possible maintenance)
-maintenance table
-deviceID
-deviceTYPE
-employeeID (who to return to or notify)
-problem string
-Components (what item is the issue, could be projector from smartroom)
-Price (changing batteries for example)
-not available
-we need Deactivate/Remove methods
-every function will return a string; check with mysql
-*/
-
 class Query{
-
+  //phone - string
   create_new_user(empid, fname, lname, email, phone, officeid, password, address, cityid, countryid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.employee values("+empid.toString()+","+"\'"+fname+"\'"+","+"\'"+lname+"\'"+","+"\'"+email+"\'"+","+phone.toString()+","
+    return "insert into abc.employee values("+empid.toString()+","+"\'"+fname+"\'"+","+"\'"+lname+"\'"+","+"\'"+email+"\'"+","+phone+","
     +officeid+","+"\'"+password+"\'"+","+"\'"+address+"\'"+","+cityid.toString()+","+countryid.toString()+"," + "\'"+datetime +"\'"+");";
   }
 
-  insert_city(city, zip){
+  insert_city(city, zip, cityid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    var cityid = 5;
     return "insert into abc.city values("+cityid.toString()+","+"\'"+city+"\'"+","+zip+","+ "\'"+datetime+"\'"+");";
   }
 
-  insert_country(country){
+  insert_country(country, countryid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    var ctryid = 5;
     return "insert into abc.country values("+ctryid.toString()+","+"\'"+country+"\'"+","+"\'"+datetime+"\'"+");";
   }
 
+  //deviceid - string
   insert_assignment(deviceid, officeid, floor, employeeid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.deviceassignment values("+deviceid.toString()+","+officeid.toString()+","+floor.toString()+","
+    return "insert into abc.deviceassignment values("+deviceid+","+officeid.toString()+","+floor.toString()+","
     +employeeid.toString()+"\'"+datetime+"\'"+");";
   }
 
   insert_reservation(deviceid, empid, officeid, capacity, availability, duration){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0,8);
-    return "insert into abc.reservation values(" + deviceid.toString() + "," + empid.toString()+ "," + officeid.toString()
-     + "," + capacity.toString() + "," + availability.toString() + "," + duration.toString() + "," + "\'" + datetime + "\'" + ");";
+    return "insert into abc.reservation values(" + deviceid + "," + empid.toString()+ "," + officeid.toString()
+     + "," + capacity.toString() + "," + availability.toString() + "," + duration.toString() + "," + "\'" + datetime + "\'" + ");" ;
   }
 
   insert_maintenance(deviceid, devicetype, empid, issue, components, price){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-    return "insert into abc.maintenance values(" + deviceid.toString() + "," + deviceTypeid.toString() + "," + empid.toString()
-  + "," + issue + "," + components + "," + price.toString() + "," + "\'" + datetime + "\'" + ");";
+    return "insert into abc.maintenance values(" + deviceid + "," + deviceTypeid.toString() + "," + empid.toString()
+  + "," + issue + "," + components + "," + price.toString() + "," + "\'" + datetime + "\'" + ");" ;
   }
 
-  add_device(employeeid, deviceType, leased){
+  add_device(employeeid, deviceType, leased, deviceid, deviceTypeid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    var deviceid = 1;
-    var deviceTypeid = this.getQuery(this.type2id(deviceType));
-    return "insert into abc.device values("+deviceid.toString()+","+deviceTypeid.toString()+","+leased.toString()+","
+    return "insert into abc.device values("+deviceid+","+deviceTypeid.toString()+","+leased.toString()+","
   +"\'"+datetime+"\'"+");";
   }
 
-  add_device_type(deviceType){
+  add_device_type(deviceType, deviceTypeid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    var deviceTypeid = this.getQuery(this.type2id(deviceType));
     return "insert into abc.device values("+deviceTypeid.toString()+","+"\'"+deviceType+","
   +"\'"+datetime+"\'"+");";
   }
 
-   addDevice2Inventory(deviceType, stock){
+   addDevice2Inventory(deviceType, stock, deviceTypeid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    var deviceTypeid = this.getQuery(this.type2id(deviceType));
     return "insert into abc.inventory values("+deviceTypeid.toString()+","+stock.toString()+",0"
   +"\'"+datetime+"\'"+");";
   }
 
-  add_new_office(officeid, address, city, country){
+  add_new_office(officeid, address, cityid, countryid){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    var cityid = this.getQuery(this.city2cityid(city));
-    var countryid = this.getQuery(this.country2countryid(country));
     return "insert into abc.office values("+officeid.toString()+","+"\'"+address+"\',"+cityid.toString()+","+countryid.toString()+
     ",\'"+datetime+"\'"+");";
   }
@@ -112,45 +77,14 @@ class Query{
     "\'"+startdate+"\',\'"+enddate+"\',\'"+datetime+"\'"+");";
   }
 
-  add2Stock(deviceType){
-    var deviceTypeid = this.getQuery(this.type2id(deviceType));
+  add2Stock(deviceType, deviceTypeid){
     return "update abc.inventory set stock = stock + 1 where abc.inventory.DeviceTypeID=" + deviceTypeid.toString()+";";
   }
 
-  createRequirement(deviceType){
-    var deviceTypeid = this.getQuery(this.type2id(deviceType));
+  createRequirement(deviceType, deviceTypeid){
     return "update abc.inventory set required = required + 1 where abc.inventory.DeviceTypeID=" + deviceTypeid.toString()+";";
   }
 
-
-///// new stuff: delete methods /////////////
-  delete_reservation(reservation){
-    var dt = new Date();
-    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-    return "delete from abc.reservation where(" + reservation.toString() + "\'" + datetime + "\'" + ");";
-  }
-  
-delete_city(city){
-    var dt = new Date();
-    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-    this.runQuery("delete from abc.city where(" + city.toString() + "\'" + datetime + "\'" + ");");
-
-
-}
-
-  delete_device(deviceid){
-    var dt = new Date();
-    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-<<<<<<< HEAD
-    this.runQuery("delete from abc.reservation where(" + deviceid.toString() + "\'" + datetime + "\'" + ");");
-=======
-    return "delete from abc.reservation where(" + deviceid.toString() + "\'" + datetime + "\'" + ");";
-  
->>>>>>> 6f154762ddf06d0ec11d4829586c9dfe02bc841d
-  }
-
-
-  /////////////////
   type2id(deviceType){return "select d.devicetypeid from devicetypes d where deviceType="+deviceType+";";}
 
   city2cityid(city){return "select c.cityid from city c where name="+city+";";}
@@ -167,6 +101,24 @@ delete_city(city){
     }
     query += (id+"."+cols[cols.length-1] + " from " + this.database +"."+ table + ";");
     return query;
+  }
+
+  delete_reservation(reservation){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    return "delete from abc.reservation where(" + reservation.toString() + "\'" + datetime + "\'" + ");";
+  }
+
+  delete_city(city){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    return "delete from abc.city where(" + city.toString() + "\'" + datetime + "\'" + ");";
+  }
+
+  delete_device(deviceid){
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+    return "delete from abc.reservation where(" + deviceid + "\'" + datetime + "\'" + ");";
   }
 
   // cols - have id concatenated with column name, -> employee.first_name
@@ -193,14 +145,3 @@ delete_city(city){
     return query;
   }
 }
-<<<<<<< HEAD
-
-var C = new Query('root', 'password');
-// console.log(C.getQuery(C.type2id('sgdg')));
-console.log(C.select(["a", "b", "c"], "alphabets"));
-console.log(C.join(["e.firstname", "e.lastname", "d.deviceid", "e.employeeid"],
-["employee e", "device d", "office o"], ["e.employeeid = d.employeeid", "e.employeeid = o.officeid"], ["e.employeeid = 1", "o.officeid = 4"]))
-
-C.insert_country("United States");
-=======
->>>>>>> 6f154762ddf06d0ec11d4829586c9dfe02bc841d
