@@ -34,7 +34,7 @@ const modalStyle = {
 
 export class Body extends Component {
     //create function that calls fetch function and the url is localhost 500
-    function fetchFunction () {
+    fetchFunction () {
         fetch('http://localhost:500')
         .then(function (response){
             return 1
