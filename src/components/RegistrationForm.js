@@ -36,13 +36,19 @@ export class RegistrationForm extends Component {
     render() {
             return (<div style={modalStyle}>
                     <form >
-                        <input placeholder="Employee Name" /><br/>
-                        <input placeholder="Date" /><br/>
-                        <input placeholder="email" /><br/>
-                        <input placeholder="Event Name" /><br/>
-                        <input placeholder="Event location" /><br/>
+                        <input placeholder="First Name" /><br/>
+                        <input placeholder="Last Name" /><br/>
+                        <input placeholder="Email" /><br/>
+                        <input placeholder="Phone" /><br/>
+                        <input placeholder="OfficeID" /><br/>
+                        <input placeholder="Password" /><br/>
+                        <input placeholder="Re-type Password"/><br/>
+                        <input placeholder="Address"/><br/>
+                        <input placholder="cityid" /><br/>
+                        <input placholder="country" /><br/>
                         <Button title="submit"/>
                     </form>
                 </div>);
         
     }
+}
