@@ -46,7 +46,7 @@ export class RegistrationForm extends Component {
                         <input placeholder="Address"/><br/>
                         <input placholder="cityid" /><br/>
                         <input placholder="country" /><br/>
-                        <Button title="submit"/>
+                        <Button style={{padding:"10px"}} title="submit"/>
                     </form>
                 </div>);
         

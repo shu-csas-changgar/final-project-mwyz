@@ -42,7 +42,7 @@ export class EditReservationForm extends Component {
                         <input placeholder="email" /><br/>
                         <input placeholder="Event Name" /><br/>
                         <input placeholder="Event location" /><br/>
-                        <Button title="submit"/>
+                        <Button style={{padding:"10px"}} title="submit"/>
                     </form>
                 </div>);
         

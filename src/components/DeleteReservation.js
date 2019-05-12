@@ -37,7 +37,7 @@ export class DeleteReservationForm extends Component {
             return (<div style={modalStyle}>
                     <form >
                         <input placeholder="Reservation ID" /><br/>
-                        <Button title="submit"/>
+                        <Button style={{padding:"10px"}} title="submit"/>
                     </form>
                 </div>);
         
