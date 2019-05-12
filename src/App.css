@@ -1,6 +1,23 @@
+.homePage {
+  
+  background-image: url("assets/metro.jpg");
+}
 .App {
-  height:1000;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("assets/metro_2.jpg");
+  height:1000px;
   text-align: center;
+}
+
+input {
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid #000000;
+	position: relative;
+  	font-family: Arial;
 }
 
 .App-logo {
@@ -31,6 +48,8 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+
 
 .App-link {
   color: #61dafb;

@@ -22,12 +22,14 @@ const loginButtonStyle = {
   float: 'right',
 }
 
+
+
 class App extends Component {
   constructor() {
     super()
     this.state = {
       show: false,
-      loggedIn: true,
+      loggedIn: false,
       tab: 5,
     }
     this.changeShow = this.changeShow.bind(this);
@@ -60,7 +62,6 @@ class App extends Component {
     if (this.state.loggedIn)
     {
       return (
-        <div>
           <div className="App">
             <div style={headerStyle}>
                 <NavBar onClick={this.changeTab} tab={this.state.tab}/>
@@ -68,12 +69,11 @@ class App extends Component {
             </div>
             <Body tab={this.state.tab}/>
         </div>
-        </div>
       );
     } else
     {
       return (
-        <body>
+        <body className="homePage">
           <div className="App">
             <div style={headerStyle}>
               <Button style={homeButtonStyle} title="home"/>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from './Button';
+import "../stylesheets/login.css"
 
 const defaultButtonStyle = {
     height: 100,
@@ -55,7 +56,7 @@ export class LoginModal extends Component {
                         <input type="password" placeholder="password"/>
                     </div>
                     <div style={defaultButtonStyle}>
-                        <button  onClick={this.props.onClose}>Login</button>
+                        <button className="button" onClick={this.props.onClose}>Login</button>
                     </div>
                 </div>
             </div>);
