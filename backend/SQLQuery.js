@@ -56,11 +56,11 @@ class Query{
     return "insert into abc.maintenance values(" + dct[deviceid] + "," +dct[deviceTypeid] + "," +dct[empid]
   + "," + dct[issue] + "," +dct[components] + "," + dct[price] + "," + "\'" + datetime + "\'" + "); " ;
   }
-// employeeid, deviceType, leased, deviceTypeid
+// employeeid, deviceType, deviceTypeid
   add_device(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.device values("+dct[deviceTypeid]+","+dct[leased]+","
+    return "insert into abc.device values("+dct[deviceTypeid]+", "+ "1" +" ,"
   +"\'"+datetime+"\'"+"); ";
   }
 
@@ -165,7 +165,7 @@ class Query{
       "update abc.devices " +  "set updated = " + datetime + ", where employeeid = "+dct[empid] +"; " +
       "update abc.reservation " +  "set updated = " + datetime + ", where employeeid = "+dct[empid] +"; " +
       "update abc.employee " +  "set updated = " + datetime + ", where employeeid = "+dct[empid] +"; " +
-      "update abc.maintenance" +  "set updated = " + datetime + ", where employeeid = "+dct[empid] +"; " + ;
+      "update abc.maintenance" +  "set updated = " + datetime + ", where employeeid = "+dct[empid] +"; " ;
     }
 
     //vendorid
