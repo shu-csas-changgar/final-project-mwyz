@@ -1,0 +1,17 @@
+FORMS:
+
+employee -> registed-device: officeid, floor, employeeid, deviceType, leased
+         -> register-userL: first_name, last_name, email, officeid, password, address, city, country.
+         -> reservation: deviceid, officeid, floor, employeeid
+         -> maintenance: deviceid, deviceType, first_name, last_name, issue, components, price
+         -> removeEmployee: first_name, last_name
+         -> removedevice: deviceid
+
+reservation -> add-to-reservation: `DeviceID`, `OfficeID`, 'DeviceType`
+            -> create-reservation: `deviceid`, employeeid,`Time`,`Duration`
+            -> remove-reservation:  deviceid, employeeid
+
+inventory -> send-order: vendorid, amount, deviceType, enddate (can be null)
+
+office -> new-office:  address, city, country
+       -> delete-office officeid
