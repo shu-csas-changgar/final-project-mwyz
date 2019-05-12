@@ -30,12 +30,29 @@ const modalStyle = {
 
 export class ReservationForm extends Component {
 
-    
+    postReservation(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+
+        fetch("http://localhost:5000/postReservation", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            //make sure to serialize your JSON body
+            body: JSON.stringify(data)
+            })
+            .then( (response) => { 
+            //do something awesome that makes the world a better place
+            });
+}
 
     
     render() {
             return (<div style={modalStyle}>
-                    <form >
+                    <form onSubmit={this.postReservation}>
                         <input placeholder="Employee Name" /><br/>
                         <input placeholder="Date" /><br/>
                         <input placeholder="email" /><br/>

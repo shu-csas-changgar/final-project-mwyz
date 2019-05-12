@@ -30,7 +30,24 @@ const modalStyle = {
 
 export class RegistrationForm extends Component {
 
-    
+    postUser(event) {
+
+        event.preventDefault();
+        const data = new FormData(event.target);
+        fetch("http://localhost:5000/posUser", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            //make sure to serialize your JSON body
+            body: JSON.stringify(data)
+        })
+        .then( (response) => { 
+        //do something awesome that makes the world a better place
+        });
+}
 
     
     render() {
