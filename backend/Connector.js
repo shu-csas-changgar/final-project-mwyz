@@ -1,7 +1,7 @@
-// const express = require('express');
-// const path = require('path');
-//
-// const app = express();
+const express = require('express');
+const path = require('path');
+
+const app = express();
 
 var mysql = require('mysql');
 
@@ -137,9 +137,9 @@ app.post('/sendorder', (req, res)  =>{
 
 app.post('/newOffice', (req, res)  =>{
   con.query(Q.add_new_office(req));
-})
+});
 
-app.post('deleteOffice'(req, res)  =>{
+app.post('/deleteOffice', (req, res)  =>{
   con.query(Q.delete_office(req));
 });
 
