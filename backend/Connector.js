@@ -31,7 +31,7 @@ console.log(con.query(Q.select("*", "city")));
 
 //register user
 //req-keys: city-name, zip, country, hasDevice (boolean), officeid, floor
-
+//first_name, last_name, email, , password, address,
 app.post("/submit-registration", (req, res) => {
 
   con.query(Q.contains_city(req), function (err, result, fields) {
@@ -115,7 +115,7 @@ app.post('/sendorder', (req, res)  =>{
      })
 
      for(var i = 1; i <= req['amount']; i++){
-       req['deviceid'] = max_id + i;
+       req['deviceid'] = max_id + 1;
        con.query(Q.add_vendor(req));
      }
 
@@ -137,9 +137,9 @@ app.post('/sendorder', (req, res)  =>{
 
 app.post('/newOffice', (req, res)  =>{
   con.query(Q.add_new_office(req));
-});
+})
 
-app.post('/deleteOffice', (req, res)  =>{
+app.post('deleteOffice', (req, res)  =>{
   con.query(Q.delete_office(req));
 });
 
