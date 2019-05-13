@@ -22,8 +22,16 @@ class Query{
     return "select cityid from city where name = " + dct["city"] + ";";
   }
 
+  contains_office(dct){
+    return "select officeid from office where address = " + dct["address"] + ";";
+  }
+
   contains_country(dct){
     return "select countryid from country where name = " + "\'"+ dct["city"] + "\'"+ ";";
+  }
+
+  contains_deviceType(dct){
+    return "select devicetypeid from devicetypes where devicetype = " + "\'"+ dct["devicetype"] + "\'"+ ";";
   }
 
   //country
@@ -60,8 +68,8 @@ class Query{
   add_device(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.device values("+dct["deviceTypeid"]+", "+ "1" +" ,"
-  +"\'"+datetime+"\'"+"); ";
+    return "insert into abc.devices (devicetypeid, leased, employeeid, updated) values("+"\'"+dct["deviceTypeid"]+"\'"+", "+ "'1'" +" ,"
+  + "\'"+ dct["empid"] + "\'"+ ","+"\'"+datetime+"\'"+"); ";
   }
 
 // deviceType
@@ -93,7 +101,7 @@ class Query{
   }
 
 
-  "-------------------------------------------------------"
+  // "-------------------------------------------------------"
 // deviceTypeid, amount
   updateStock(dct){
     var dt = new Date();
@@ -117,7 +125,7 @@ class Query{
 
   getNewVendorID(){ return "select max(v.vendorid) from abc.vendor v;";}
 
-  select(cols, table){
+  select(cols, table, conditions=[]){
     if(cols == "*"){
       return "select * from " + this.database +"."+ table +";";
     }
@@ -127,7 +135,13 @@ class Query{
     for(var i = 0; i < cols.length-1; i++){
       query += (id+"."+cols[i] + ", ");
     }
-    query += (id+"."+cols[cols.length-1] + " from " + this.database +"."+ table + ";");
+    query += (id+"."+cols[cols.length-1] + " from " + this.database +"."+ table +" "+ id);
+
+    query += " where ";
+    for(var i = 0; i < conditions.length - 1; i++){
+          query += conditions[i] + " and ";
+      }
+    query += conditions[conditions.length-1] + ";";
     return query;
   }
   // deviceid
@@ -190,7 +204,7 @@ class Query{
   // joined_fields and tables have to be in the same order,
   // ex: joined_cols - ["e.employee_id = d.employee_id", ...]
   //conditions - list of conditions
-  join(cols, tables, joined_fields, conditions, type='join'){
+  join(cols, tables, joined_fields, conditions=[], type='join'){
     if(cols == "*"){
       var query = "select * ";
     }else{
@@ -215,5 +229,6 @@ class Query{
 }
 
 var Q = new Query();
-console.log(Q.add_vendor({"vendor_""stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
+console.log(Q.add_device({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
+console.log(Q.select(["devicetypeid"], "deviceTypes", ["devicetype = 'laptop'"]));
 module.exports = Query;
