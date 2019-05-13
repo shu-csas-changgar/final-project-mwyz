@@ -31,7 +31,7 @@ class App extends Component {
     super()
     this.state = {
       show: false,
-      loggedIn: true,
+      loggedIn: false,
       tab: 5,
       data: []
     }
@@ -41,17 +41,7 @@ class App extends Component {
     this.login = this.login.bind(this)
   }
 
-  componentDidMount() {
-    this.getTableData()
-  }
-
-  getTableData() {
-      fetch('http://localhost:5000/ViewTable')
-      .then(response => response.json())
-      .then(dataa => this.setState({data: dataa}))
-      
-      
-  }
+  
 
   changeShow() {
     let bool = !this.state.show

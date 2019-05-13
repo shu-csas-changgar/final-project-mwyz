@@ -37,7 +37,7 @@ export class Table extends Component {
         let table = [];
         let index = 0;
         for (let i = 0; i < body.length; i++){
-            table.push(<tr><th>{body[i].DeviceID}</th><th>{body[i].DeviceTypeID}</th><th>{body[i].Leased}</th><th>{body[i].EmployeeID}</th><th>{body[i].Updated}</th></tr>)
+            table.push(<tr onClick={this.clicked}><th>{body[i].DeviceID}</th><th>{body[i].DeviceTypeID}</th><th>{body[i].Leased}</th><th>{body[i].EmployeeID}</th><th>{body[i].Updated}</th></tr>)
             index++
         }
         
@@ -70,7 +70,7 @@ export class Table extends Component {
             </div>);
         } else if (this.props.type === "Reservations") {
             let headers = ["Reservation", "office ID", "employee ID", "Date", "Duration"]
-            let body = [["a","a","a","a","a"],["b","b","b","b","b"],["c","c","c","c","c"]];
+            let body = [["1","21","01","today","2hours"],["2","34","02","today","30 mins"],["3","7","03","today","4 hours"]];
             return (<div>
                 <table>
                     <thead>

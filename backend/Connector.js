@@ -171,7 +171,8 @@ app.post('/addReservation', (req, res) => {
 });
 
 app.post('/removeReseration', (req, res) => {
-  con.query(Q.delete_reservation(req));
+  //all vals appropriate vals are set to null or " "
+  con.query(Q.update_reservation(req));
 });
 
 app.post('/addMaintenanceStatus', (req, res) => {

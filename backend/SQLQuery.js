@@ -51,19 +51,19 @@ class Query{
 
   // deviceid, , officeid, duration
   insert_reservation(dct){
-  var dt = new Date();
-  var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0,8);
-  return "insert into abc.reservation (DeviceId, OfficeID, DeviceType, EmployeeID, Time," +
-  "Duration, Availability, Updated) values(" + dct["deviceid"] + ", " + dct["officeid"] + ", " + "\'" + dct["devicetype"] + "\'" + ", " + dct["empid"] + ", " + "\'" + datetime + "\'" + ", " + dct["duration"] + ", " + dct["availability"] + ", " + "\'" + datetime + "\'" + ");";
-  }
+    var dt = new Date();
+    var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0,8);
+    return "insert into abc.reservation (DeviceId, OfficeID, DeviceType, EmployeeID, Time," +
+    "Duration, Availability, Updated) values(" + dct["deviceid"] + ", " + dct["officeid"] + ", " + "\'" + dct["deviceTypeid"] + "\'" + ", " + dct["empid"] + ", " + "\'" + datetime + "\'" + ", " + dct["duration"] + ", " + dct["availability"] + ", " + "\'" + datetime + "\'" + ");";
+    }
 
   //deviceid, devicetype, officeid, empid, issue, components, price
   insert_maintenance(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
     return "insert into abc.maintenance (DeviceID, officeid, devicetype, employeeid, problem, component, price, updated) values(" + "\'"+ dct["deviceid"] + "\'"+ "," + "\'"+ dct["officeid"] + "\'"+ "," + "\'"+ dct["deviceTypeid"] + "\'"+ "," + "\'"+dct["empid"]
-  + "\'"+"," + "\'"+dct["issue"] + "\'"+"," +"\'"+dct["components"] +"\'"+ "," + "\'"+dct["price"] +"\'"+ "," + "\'" + datetime + "\'" + "); " ;
-  }
+    + "\'"+"," + "\'"+dct["issue"] + "\'"+"," +"\'"+dct["components"] +"\'"+ "," + "\'"+dct["price"] +"\'"+ "," + "\'" + datetime + "\'" + "); " ;
+    }
 // employeeid, deviceType, deviceTypeid
   add_device(dct){
     var dt = new Date();
@@ -117,11 +117,11 @@ updateStock(dct){
          "update abc.inventory " +  "set updated = " + "\'" + datetime + "\'" +  " where abc.inventory.devicetypeid = " + dct["devicetypeid"] + ";";
 }
 
-  updateReservation(dct){
-    var dt = new Date();
-    var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "update abc.reservation set employeeid = " + "\'" + dct["empid"] + "\'" + ", time = " + "\'" + dct["time "] + "\'" + ", duration = " + "\'" + dct["duration"] + "\'" +", availability = " + "\'" +dct["availability"] + "\'" +
-    ", updated = " + "\'"+ datetime + "\'" +  " where abc.inventory.DeviceTypeID=" + dct["deviceTypeid"]+"; ";
+updateReservation(dct){
+  var dt = new Date();
+  var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
+  return "update abc.reservation set employeeid = " + "\'" + dct["empid"] + "\'" + ", time = " + "\'" + datetime + "\'" + ", duration = " + dct["duration"] +", availability = " + dct["availability"] +
+  ", updated = " + "\'"+ datetime + "\'" + " where abc.inventory.DeviceTypeID = " + dct["deviceTypeid"]+"; ";
   }
 //  deviceTypeid, amount
 updateRequired(dct){
@@ -163,12 +163,11 @@ updateRequired(dct){
     return query;
   }
   // deviceid
-  delete_reservation(dct){
+  delete_maintanence(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-    return "update abc.reservation set employeeid = \"  \", time = \" \", duration = \" \" where deviceid = "+dct["deviceid"] +"; "+
-    "update abc.reservation " +  "set updated = " + datetime + ", where deviceid = "+dct["deviceid"] +";";
-  }
+    return "delete from abc.maintenance where deviceid = "+ dct["deviceid"] +";";
+    }
 // city
   delete_city(dct){
     var dt = new Date();
@@ -232,9 +231,10 @@ updateRequired(dct){
     }else{
       var query = "select ";
       for(var i = 0; i < cols.length-1; i++){
-        query += (cols[i] + ", ");
+        query += (id+"."+cols[i] + ", ");
       }
     }
+    
     query += cols[cols.length-1] + " from ";
 
     for(var i = 0; i < tables.length-1; i++){
