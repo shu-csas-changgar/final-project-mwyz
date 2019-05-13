@@ -52,6 +52,10 @@ export class RegistrationForm extends Component {
     
     render() {
             return (<div style={modalStyle}>
+                    <div>
+                        Register Form
+                    </div>
+                    <hr/>
                     <form >
                         <input placeholder="First Name" /><br/>
                         <input placeholder="Last Name" /><br/>

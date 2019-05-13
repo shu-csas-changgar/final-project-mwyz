@@ -1,3 +1,44 @@
+.table {
+  background: lightgray;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.table-toolbar {
+  background:lightgray;
+  display:flex;
+  justify-content: space-between;
+}
+
+.logo {
+  color: white;
+  float: left;
+  height: 100%;
+  align-items: center;
+  text-align: center;
+  display: flex;
+}
+
+.toolbar-left {
+  
+ display: flex;
+ flex-direction: row;
+ float: right;
+}
+
+.toolbar-right {
+  
+  float:left;
+  display: flex;
+  flex-direction: row;
+}
+
+.toolbar-button {
+  color: lightgray;
+}
+ tbody tr:hover {
+   background-color:gray;
+ }
+
 .homePage {
   
   background-image: url("assets/metro.jpg");
