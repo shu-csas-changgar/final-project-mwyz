@@ -30,6 +30,8 @@ console.log(con.query(Q.select("*", "city")));
 
 
 //register user
+//req-keys: city-name, zip, country, hasDevice (boolean), officeid, floor
+
 app.post("/submit-registration", (req, res) => {
 
   con.query(Q.contains_city(req), function (err, result, fields) {
@@ -50,22 +52,17 @@ app.post("/submit-registration", (req, res) => {
 
   Q.create_new_user(req);
   if(!req["hasDevice?"]){
-    con.query(Q.insert_assignment(req));
-    con.query(Q.select(["devicetypeid"], "deviceTypes", "devicetypes=laptop"), function (err, result, fields) {
+    req['leased'] = '1';
+    con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetypes=laptop"]), function (err, result, fields) {
       if (err) throw err;
-      var tid = result[0].deviceTypeid;
+      req['devicetypeid'] = result[0].deviceTypeid;
     });
     con.query("select max(e.employeeid) from abc.employee e;", function (err, result, fields){
       if (err) throw err;
-      var empid = result;
+      req['empid'] = result + 1;
     });
-    con.query(Q.add_device(
-      {"empid": empid, "deviceTypeid": tid}));
-    con.query(Q.insert_assignment(
-      {"empid": empid,
-      'officeid': req['officeid'], 'floor': req['floor'],
-      "deviceid": tid}
-    ));
+    con.query(Q.add_device(req));
+    con.query(Q.insert_assignment(req));
     con.query(Q.select(["stock"], "inventory"), function (err, result, fields) {
         if (err) throw err;
         var val = result[0].stock;
@@ -79,9 +76,8 @@ app.post("/submit-registration", (req, res) => {
   res.send("New user added.");
 });
 
+// req -> devicetype, leased, empid, deviceid, officeid, floor,
 app.post('/register-device' , (req, res)  =>{
-  con.query(Q.add_device(req));
-  con.query(Q.insert_assignment(req));
   con.query(Q.contains_deviceType(req), function (err, result, fields) {
     if (err) throw err;
     var b1 = result;
@@ -89,20 +85,30 @@ app.post('/register-device' , (req, res)  =>{
       con.query(Q.add_device_type(req));
     }
   });
+  con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetypes=" + req[devicetype]]), function (err, result, fields) {
+    if (err) throw err;
+    req['devicetypeid'] = result[0].deviceTypeid;
+  });
+  con.query(Q.add_device(req));
+  con.query(Q.insert_assignment(req));
 });
 
+// req -> empid
 app.post('/removeEmployee' , (req, res)  =>{
      // -> reservation: deviceid, officeid, floor, employeeid
      con.query(Q.delete_employee(req));
 });
 
+//req -> deviceid
 app.post('/removeDevice', (req, res)  =>{
      // -> reservation: deviceid, officeid, floor, employeeid
      con.query(Q.delete_device(req));
 });
 
+//req ->  amount, startdate, enddate, deviceType,
 app.post('/sendorder', (req, res)  =>{
      // -> reservation: deviceid, officeid, floor, employeeid
+     req['stock'] = req['amount'];
      con.query("select max(deviceid) from abc.devices", function(err, result, fields){
        if (err) throw err;
        var max_id = result;
@@ -113,11 +119,11 @@ app.post('/sendorder', (req, res)  =>{
        con.query(Q.add_vendor(req));
      }
 
-     con.query(Q.select(["devicetypeid"], "deviceTypes", "devicetypes=laptop"), function (err, result, fields) {
+     con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetypes=laptop"]), function (err, result, fields) {
        if (err) throw err;
        var tid = result[0].deviceTypeid;
 
-       con.query(Q.select(["devicetypeid"], "inventory", "devicetypeid="+tid), function (err, result, fields) {
+       con.query(Q.select(["devicetypeid"], "inventory", ["devicetypeid="+tid]), function (err, result, fields) {
          if (err) throw err;
          var b = result;
          if(b.length == 0){
@@ -159,7 +165,7 @@ app.post('/removeMaintanenceStatus', (req, res) => {
 });
 
 app.get('/viewTable', (req, res) => {
-  con.query(Q.select(req['cols'], req['table'], req['cond']), function(err, result, fields){
+  con.query(Q.select(req['cols'], req['table'], [req['cond']]), function(err, result, fields){
     if (err) throw err;
     res.send(result);
   })

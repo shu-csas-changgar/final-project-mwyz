@@ -19,7 +19,7 @@ class Query{
   }
 
   contains_city(dct){
-    return "select cityid from city where name = " + dct["city"] + ";";
+    return "select cityid from city where name = " + "\'"+ dct["city"] + "\'"+ ";";
   }
 
   contains_office(dct){
@@ -27,7 +27,7 @@ class Query{
   }
 
   contains_country(dct){
-    return "select countryid from country where name = " + "\'"+ dct["city"] + "\'"+ ";";
+    return "select countryid from country where name = " + "\'"+ dct["country"] + "\'"+ ";";
   }
 
   contains_deviceType(dct){
@@ -38,7 +38,7 @@ class Query{
   insert_country(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.country values("+dct["country"]+"\'"+","+"\'"+datetime+"\'"+"); ";
+    return "insert into abc.country (Name, Updated) values(\'"+dct["country"]+"\'"+","+"\'"+datetime+"\'"+"); ";
   }
 
   // deviceid, officeid, floor, employeeid
@@ -54,7 +54,7 @@ class Query{
   var dt = new Date();
   var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0,8);
   return "insert into abc.reservation (DeviceId, OfficeID, DeviceType, EmployeeID, Time," +
-  "Duration, Availability, Updated) values(" + dct["deviceid"] + ", " + dct["officeid"] + ", " + "\'" + dct["devicetype"] + "\'" + ", " + dct["employeeid"] + ", " + "\'" + datetime + "\'" + ", " + dct["duration"] + ", " + dct["availability"] + ", " + "\'" + datetime + "\'" + ");";
+  "Duration, Availability, Updated) values(" + dct["deviceid"] + ", " + dct["officeid"] + ", " + "\'" + dct["devicetype"] + "\'" + ", " + dct["empid"] + ", " + "\'" + datetime + "\'" + ", " + dct["duration"] + ", " + dct["availability"] + ", " + "\'" + datetime + "\'" + ");";
   }
 
   //deviceid, devicetype, officeid, empid, issue, components, price
@@ -68,7 +68,7 @@ class Query{
   add_device(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.devices (devicetypeid, leased, employeeid, updated) values("+"\'"+dct["deviceTypeid"]+"\'"+", "+ "'1'" +" ,"
+    return "insert into abc.devices (devicetypeid, leased, employeeid, updated) values("+"\'"+dct["deviceTypeid"]+"\'"+"," + "\'"+ dct["leased"] + "\'"+  ","
   + "\'"+ dct["empid"] + "\'"+ ","+"\'"+datetime+"\'"+"); ";
   }
 
@@ -103,12 +103,12 @@ class Query{
 
   // "-------------------------------------------------------"
 // deviceTypeid, amount
-  updateStock(dct){
-    var dt = new Date();
-    var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "update abc.inventory set stock = stock + " + dct["amount"] + " where abc.inventory.DeviceTypeID=" + dct["deviceTypeid"]+"; " +
-            "update abc.inventory " +  "set updated = " + datetime + ", where abc.inventory.devicetypeid = "+dct["deviceidTypeid"] +";";
-  }
+updateStock(dct){
+ var dt = new Date();
+ var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
+ return "update abc.inventory set stock = stock + " + dct["amount"] + " where abc.inventory.DeviceTypeID=" + dct["deviceTypeid"]+"; " +
+         "update abc.inventory " +  "set updated = " + "\'" + datetime + "\'" +  " where abc.inventory.devicetypeid = " + dct["deviceTypeid"] + ";";
+}
 
   updateReservation(dct){
     var dt = new Date();
@@ -117,18 +117,20 @@ class Query{
     ", updated = " + "\'"+ datetime + "\'" +  " where abc.inventory.DeviceTypeID=" + dct["deviceTypeid"]+"; ";
   }
 //  deviceTypeid, amount
-  updateRequired(dct){
-    var dt = new Date();
-    var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "update abc.inventory set required = required + " + dct["amount"] + " where abc.inventory.DeviceTypeID=" +dct["deviceTypeid"]+";"+
-    "update abc.inventory " +  "set updated = " + datetime + ", where abc.inventory.devicetypeid = "+dct["deviceidTypeid"] +";";
-  }
+updateRequired(dct){
+ var dt = new Date();
+ var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
+ return "update abc.inventory set required = required + " + dct["amount"] + " where abc.inventory.DeviceTypeID=" +dct["deviceTypeid"]+";"+
+ "update abc.inventory " +  "set updated = " + "\'" + datetime + "\'" + " where abc.inventory.devicetypeid = " + dct["deviceTypeid"] +";";
+}
 // deviceType
-  type2id(dct){return "select d.devicetypeid from devicetypes d where deviceType="+dct["deviceType"]+";";}
+  type2id(dct){return "select d.devicetypeid from devicetypes d where d.deviceType="+dct["deviceType"]+";";}
+
 // city
-  city2cityid(dct){return "select c.cityid from city c where name="+dct["city"]+";";}
+  city2cityid(dct){return "select c.cityid from city c where c.name="+"\'" + dct["city"]+"\';";}
+
 // country
-  country2countryid(dct){return "select c.countryid from country c where name= "+ dct["country"]+";";}
+  country2countryid(dct){return "select c.countryid from country c where name= "+ "\'" + dct["country"]+"\';";}
 
   getNewVendorID(){ return "select max(v.vendorid) from abc.vendor v;";}
 
@@ -177,7 +179,7 @@ class Query{
   delete_maintanence(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-    return "delete from abc.maintenance where deviceid = "+ dct["deviceid"] +";;
+    return "delete from abc.maintenance where deviceid = "+ dct["deviceid"] +";";
   }
 
   //empid
@@ -246,10 +248,13 @@ class Query{
   }
 }
 
+var dct = {"phone": "45345365", "address": "ergsgdg", "email": "@", "vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"};
 var Q = new Query();
-console.log(Q.add_device({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
-console.log(Q.select(["devicetypeid"], "deviceTypes", ["devicetype = 'laptop'"]));
+console.log(Q.insert_reservation(dct));
+
+// console.log(Q.add_device({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
+// console.log(Q.select(["devicetypeid"], "deviceTypes", ["devicetype = 'laptop'"]));
 module.exports = Query;
 
-console.log(Q.join(["deviceid, devicetype, employeeid"], ["employee", "devices"], ["employeeid"]))
-console.log(Q.delete_reservation({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
+// console.log(Q.join(["deviceid, devicetype, employeeid"], ["employee", "devices"], ["employeeid"]))
+// console.log(Q.delete_reservation({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
