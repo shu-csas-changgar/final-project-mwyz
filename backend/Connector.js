@@ -3,7 +3,11 @@ const path = require('path');
 
 const app = express();
 
+const cors = require('cors');
 
+app.use(cors({
+  origin: 'http://localhost:3000',
+credentials: false}));
 var mysql = require('mysql');
 
 const Query = require('./SQLQuery.js');
@@ -179,17 +183,18 @@ app.post('/removeMaintanenceStatus', (req, res) => {
 });
 
 app.get('/viewTable', (req, res) => {
-  con.query(Q.select(req['cols'], req['table'], [req['cond']]), function(err, result, fields){
+  con.query(Q.select('*', ['devices'], ), function(err, result, fields){
     if (err) throw err;
+    console.log(result)
     res.send(result);
-  })
+  });
 });
 
 app.get('/viewJointTable', (req, res) => {
   con.query(Q.join(req['cols'], req['tables'], req['fields'], req['conds'], req['type']), function(err, result, fields){
     if (err) throw err;
     res.send(result);
-  })
+  });
 });
 
 

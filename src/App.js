@@ -6,6 +6,8 @@ import { NavBar } from './components/NavBar';
 import { LoginModal } from './components/LoginModal'
 import { Body } from './components/body';
 
+let axios = require('axios')
+
 
 const headerStyle = {
   width: '100%',
@@ -42,8 +44,8 @@ class App extends Component {
   }
 
   getTableData() {
-      fetch('http://localhost:5000', {mode: "no-cors"} )
-      .then(response => console.log(response.json()))
+      fetch('http://localhost:5000/viewTable')
+      .then(response => response.json())
       .then(dataa => this.setState({data: dataa}))
       
       
