@@ -22,7 +22,7 @@ export class CheckReservationForm extends Component {
             return (<div style={modalStyle}>
                     <form >
                         <input placeholder="Reservation ID" /><br/>
-                        <Button onClick={this.props.onClick} style={{padding:"10px"}} title="submit"/>
+                        <Button className="form-button" onClick={this.props.onClick} title="submit"/>
                     </form>
                 </div>);
         

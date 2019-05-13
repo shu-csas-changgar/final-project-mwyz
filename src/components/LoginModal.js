@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from './Button';
 import "../stylesheets/login.css"
 
 const defaultButtonStyle = {
@@ -38,8 +37,15 @@ const inputStyle = {
 
 export class LoginModal extends Component {
 
-    
+    constructor() {
+        super()
+        this.login = this.login.bind(this)
+    }    
 
+    login() {
+        this.props.onClick()
+        this.props.onClose()
+    }
     
     render() {
 
@@ -56,7 +62,7 @@ export class LoginModal extends Component {
                         <input type="password" placeholder="password"/>
                     </div>
                     <div style={defaultButtonStyle}>
-                        <button className="button" onClick={this.props.onClose}>Login</button>
+                        <button className="button" onClick={this.login}>Login</button>
                     </div>
                 </div>
             </div>);

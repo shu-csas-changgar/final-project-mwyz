@@ -1,21 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from './Button';
 
-const navBarDefaultStyle = {
-    display:"flex",
-    flexDirection: "column",
-    justifyContent: "center",
-}
-
-const backdropStyle = {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    padding: 50,
-}
 
 const modalStyle = {
     backgroundColor: '#fff',
@@ -44,8 +29,11 @@ export class EditReservationForm extends Component {
     
     render() {
             return (<div style={modalStyle}>
-                    <div>
-                            Edit Form
+                    <div className="form-header">
+                            <div></div>
+                            <div className="form-title">Edit Form</div>
+                            <button className="close-button" onClick={this.props.onClick}>close</button>
+
                     </div>
                     <hr/>
                     <form >
@@ -55,7 +43,11 @@ export class EditReservationForm extends Component {
                         <input id="email" placeholder="email" /><br/>
                         <input id="ename" placeholder="Event Name" /><br/>
                         <input id="elocation" placeholder="Event location" /><br/>
-                        <Button onClick={this.props.onClick} style={{padding:"10px"}} title="submit"/>
+                        <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+                            <Button onClick={this.props.onClick} class="form-button" title="Save"/>
+                            <Button onClick={this.props.onClick} class="form-button" title="Delete" />
+                        </div>
+                        
                     </form>
                 </div>);
         

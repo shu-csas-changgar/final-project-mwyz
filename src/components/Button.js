@@ -66,14 +66,19 @@ export class Button extends Component {
 
 
     render() {
-
-        var style = ButtonDefaultStyle;
+        var style = null;
+        if (this.props.style) {
+            style = this.props.style
+        } else {
+            style = ButtonDefaultStyle 
+        }
+        
         if(this.state.hover) {
             style = hoverStyle;
         }
 
-        return(<div className={this.props.class}style={this.props.style || defaultStyle}>
-            <button className={this.props.class} style={style} onClick={this.props.onClick} onMouseEnter={this.hoverChange} onMouseLeave={this.hoverExit}>{this.props.title}</button>
+        return(<div className={this.props.class} style={this.props.style || defaultStyle}>
+            <button style={style} onClick={this.props.onClick} onMouseEnter={this.hoverChange} onMouseLeave={this.hoverExit}>{this.props.title}</button>
         </div>);
     }
 
