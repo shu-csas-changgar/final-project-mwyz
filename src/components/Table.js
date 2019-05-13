@@ -37,7 +37,7 @@ export class Table extends Component {
         let table = [];
         let index = 0;
         for (let i = 0; i < body.length; i++){
-            table.push(this.renderRow(body[i], index))
+            table.push(<tr><th>{body[i].DeviceID}</th><th>{body[i].DeviceTypeID}</th><th>{body[i].Leased}</th><th>{body[i].EmployeeID}</th><th>{body[i].Updated}</th></tr>)
             index++
         }
         
@@ -64,7 +64,7 @@ export class Table extends Component {
                         {this.renderTableHeaders(headers)}
                     </thead>
                       
-                    {this.renderTableBody(body)}
+                    {this.renderTableBody(this.props.data)}
                     
                 </table>
             </div>);

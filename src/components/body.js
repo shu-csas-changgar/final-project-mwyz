@@ -32,6 +32,7 @@ export class Body extends Component {
             type: "none",
             selected: [],
             table: "Items",
+            data: [],
         }
         this.changeShow = this.changeShow.bind(this)
         this.showDelete = this.showDelete.bind(this)
@@ -42,6 +43,18 @@ export class Body extends Component {
         this.itemTable = this.itemTable.bind(this)
         
     }
+
+    componentDidMount() {
+        this.getTableData()
+      }
+    
+      getTableData() {
+          fetch('http://localhost:5000/ViewTable')
+          .then(response => response.json())
+          .then(dataa => this.setState({data: dataa}))
+          
+          
+      }
 
     //create function that calls fetch function and the url is localhost 500
     fetchFunction () {
@@ -136,7 +149,7 @@ export class Body extends Component {
                         </div>
                     </div>
                     
-                    <Table type={this.state.table} onClick={this.setSelected}/>
+                    <Table type={this.state.table} data={this.state.data} onClick={this.setSelected}/>
                 </div>
                 <DynamicModal selected={this.state.selected} onClick={this.changeShow} show={this.state.show} type={this.state.type}/>
             </div>

@@ -63,7 +63,7 @@ con.connect(function(err) {
       'hasDevice?': false
     };
 
-    console.log(Q.join(["employeeid", 'deviceid'], ['employee', 'devices'], ['employee.employeeid=devices.employeeid']));
+    console.log(Q.join("*", ['employee', 'devices'], ['employee.employeeid=devices.employeeid']));
     con.query(Q.join(["e.employeeid", 'd.deviceid'], ['employee e', 'devices d'], ['e.employeeid=d.employeeid']), function(err, result, fields){
         if (err) throw err;
         console.log(result);

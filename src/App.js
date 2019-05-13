@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   getTableData() {
-      fetch('http://localhost:5000/viewTable')
+      fetch('http://localhost:5000/ViewTable')
       .then(response => response.json())
       .then(dataa => this.setState({data: dataa}))
       
@@ -90,6 +90,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.data)
     if (this.state.loggedIn)
     {
       return (
