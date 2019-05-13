@@ -38,25 +38,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-
+    this.getTableData()
   }
 
   getTableData() {
-      fetch('https://localhost:5000')
-      .then(response => response.json)
-      .then(JSONData => JSONData.results.map(info => (
-        {
-          officeid: 1,
-          floor: 2,
-          employeeid: 3,
-          devicetype: 4,
-          leased: 5,
-        }
-      )))
-      .then(data => this.setstate({
-          data
-      }))
-      .catch(error => console.log("parsing error"))
+      fetch('http://localhost:5000', {mode: "no-cors"} )
+      .then(response => console.log(response.json()))
+      .then(dataa => this.setState({data: dataa}))
+      
+      
   }
 
   changeShow() {
@@ -86,7 +76,8 @@ class App extends Component {
     {
       return (
           <div className="App">
-            
+
+            {console.log(this.state.data)}
             <div style={headerStyle}>
                 <Button style={homeButtonStyle} onClick={this.changeTab} tab={this.state.tab} title="home"/>
             </div>

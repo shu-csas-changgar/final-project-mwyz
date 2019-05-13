@@ -3,6 +3,7 @@ const path = require('path');
 
 const app = express();
 
+
 var mysql = require('mysql');
 
 const Query = require('./SQLQuery.js');
@@ -36,7 +37,7 @@ app.post("/submit-registration", (req, res) => {
 
   con.query(Q.contains_city(req), function (err, result, fields) {
     if (err) throw err;
-    var b1 = result[0]
+    var b1 = result;
     if(b1.length == 0){
       con.query(Q.insert_city(req));
     }
@@ -50,29 +51,41 @@ app.post("/submit-registration", (req, res) => {
     }
   });
 
-  Q.create_new_user(req);
+  con.query(Q.create_new_user(req));
   if(!req["hasDevice?"]){
     req['leased'] = '1';
-    con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetypes=laptop"]), function (err, result, fields) {
+
+    con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetype='laptop'"]), function (err, result, fields) {
       if (err) throw err;
       req['devicetypeid'] = result[0].deviceTypeid;
     });
-    con.query("select max(e.employeeid) from abc.employee e;", function (err, result, fields){
+
+    con.query("select max(e.employeeid) as empid from abc.employee e;", function (err, result, fields){
       if (err) throw err;
-      req['empid'] = result + 1;
+      req['empid'] = parseInt(result[0]['empid']) + 1;
     });
-    con.query(Q.add_device(req));
-    con.query(Q.insert_assignment(req));
+    con.query("select min(v.deviceid) as deviceid from abc.vendors v where v.startdate = '';",
+     function (err, result, fields){
+      if (err) throw err;
+      req['deviceid'] = parseInt(result[0]['deviceid']);
+      var dt = new Date();
+      var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
+      con.query("update abc.vendor set startdate = " + "\'" + datetime + "\'" +  ",  updated = " + "\'" + datetime + 
+        "\'where deviceid=" +"\'" + req['deviceid'] + "\';");
+    });
+
+    con.query(Q.add_existing_device(req));
+    // con.query(Q.insert_assignment(req));}
     con.query(Q.select(["stock"], "inventory"), function (err, result, fields) {
         if (err) throw err;
+        console.log(result);
         var val = result[0].stock;
         if(val > 0){
           con.query(Q.updateStock({"amount": "-1", "deviceTypeid": tid}));
         }else{
           con.query(Q.updateRequired({"amount": "1", "deviceTypeid": tid}));
         }
-      });
-  }
+    });}
   res.send("New user added.");
 });
 
@@ -85,7 +98,7 @@ app.post('/register-device' , (req, res)  =>{
       con.query(Q.add_device_type(req));
     }
   });
-  con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetypes=" + req[devicetype]]), function (err, result, fields) {
+  con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetype=" + "\'"+ req['devicetype'] + "\'"]), function (err, result, fields) {
     if (err) throw err;
     req['devicetypeid'] = result[0].deviceTypeid;
   });
@@ -108,31 +121,32 @@ app.post('/removeDevice', (req, res)  =>{
 //req ->  amount, startdate, enddate, deviceType,
 app.post('/sendorder', (req, res)  =>{
      // -> reservation: deviceid, officeid, floor, employeeid
-     req['stock'] = req['amount'];
-     con.query("select max(deviceid) from abc.devices", function(err, result, fields){
-       if (err) throw err;
-       var max_id = result;
-     })
+    req['stock'] = req['amount'];
+    var max_id = 0;  
+    con.query("select max(deviceid) as deviceid from abc.devices", function(err, result, fields){
+      if (err) throw err;
+        max_id = result[0].deviceid;
+    });
 
      for(var i = 1; i <= req['amount']; i++){
        req['deviceid'] = max_id + i;
        con.query(Q.add_vendor(req));
      }
-
-     con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetypes=laptop"]), function (err, result, fields) {
-       if (err) throw err;
-       var tid = result[0].deviceTypeid;
-
-       con.query(Q.select(["devicetypeid"], "inventory", ["devicetypeid="+tid]), function (err, result, fields) {
-         if (err) throw err;
-         var b = result;
-         if(b.length == 0){
-           con.query(Q.addDevice2Inventory(req));
-         }
-         con.query(Q.updateStock(req))
-       });
-       });
-     con.query(Q.delete_device(req));
+  
+     con.query(Q.select(["devicetypeid"], "deviceTypes", ["devicetype= \'"+req['devicetype'] +"\'"]), function (err, result, fields) {
+      if (err) throw err;
+      var tid = result[0].devicetypeid;
+      req['devicetypeid'] = tid;
+      con.query(Q.select(["devicetypeid"], "inventory", ["devicetypeid="+"\'"+tid+"\'"]), function (err, result, fields) {
+        if (err) throw err;
+        var b = result;
+        if(b.length == 0){
+          con.query(Q.addDevice2Inventory(req));
+        }
+        // con.query(Q.updateStock(req));
+      });
+    con.query(Q.delete_device(req));
+    });
 });
 
 app.post('/newOffice', (req, res)  =>{
@@ -180,8 +194,9 @@ app.get('/viewJointTable', (req, res) => {
 
 
 app.get('/' , (req, res)  =>{
-    var list = [1,2,3];
-    res.json(list);
+   res.setHeader('Access-Control-Allow-Origin', '*');
+    var list = [{"x": "hello"},{"y": "why"},{"z": "we tried"}];
+    res.send(list);
 });
 
 const port = process.env.PORT || 5000;
