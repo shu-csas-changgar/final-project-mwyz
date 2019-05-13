@@ -30,8 +30,17 @@ const modalStyle = {
 
 export class EditReservationForm extends Component {
 
-    
-    
+    populate() {
+        document.getElementById("ID").setAttribute('value',this.props.selected[0].innerHTML);
+        document.getElementById("name").setAttribute('value',this.props.selected[1].innerHTML);
+        document.getElementById("date").setAttribute('value',this.props.selected[2].innerHTML);
+        document.getElementById("email").setAttribute('value',this.props.selected[3].innerHTML);
+        document.getElementById("ename").setAttribute('value',this.props.selected[4].innerHTML);
+    }
+
+    componentDidMount() {
+        this.populate()
+    }
     
     render() {
             return (<div style={modalStyle}>
@@ -40,12 +49,12 @@ export class EditReservationForm extends Component {
                     </div>
                     <hr/>
                     <form >
-                        <input placeholder="reservation ID" value="a"/><br/>
-                        <input placeholder="Employee Name" /><br/>
-                        <input placeholder="Date" /><br/>
-                        <input placeholder="email" /><br/>
-                        <input placeholder="Event Name" /><br/>
-                        <input placeholder="Event location" /><br/>
+                        <input id="ID" placeholder="reservation ID"/><br/>
+                        <input id="name" placeholder="Employee Name" /><br/>
+                        <input id="date" placeholder="Date" /><br/>
+                        <input id="email" placeholder="email" /><br/>
+                        <input id="ename" placeholder="Event Name" /><br/>
+                        <input id="elocation" placeholder="Event location" /><br/>
                         <Button onClick={this.props.onClick} style={{padding:"10px"}} title="submit"/>
                     </form>
                 </div>);

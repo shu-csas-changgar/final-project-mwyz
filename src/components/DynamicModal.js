@@ -54,7 +54,7 @@ export class DynamicModal extends Component {
             </div>);
             else if (this.props.type === "edit") {
                 return (<div style={backdropStyle}>
-                    <EditReservationForm onClick={this.props.onClick}/>
+                    <EditReservationForm selected={this.props.selected} onClick={this.props.onClick}/>
                 </div>);
                 
             }
