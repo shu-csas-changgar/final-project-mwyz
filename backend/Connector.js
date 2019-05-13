@@ -17,8 +17,6 @@ database: "abc"
 });
 
 
-
-
 // connect
 con.connect((err) => {
   if(err){throw err;}
@@ -57,17 +55,17 @@ app.post("/submit-registration", (req, res) => {
       if (err) throw err;
       var tid = result[0].deviceTypeid;
     });
-    con.query("select max(e.employeeid) from abc.employee e;" function (err, result, fields){
+    con.query("select max(e.employeeid) from abc.employee e;", function (err, result, fields){
       if (err) throw err;
       var empid = result;
-    }
+    });
     con.query(Q.add_device(
       {"empid": empid, "deviceTypeid": tid}));
     con.query(Q.insert_assignment(
       {"empid": empid,
       'officeid': req['officeid'], 'floor': req['floor'],
       "deviceid": tid}
-    ))
+    ));
     con.query(Q.select(["stock"], "inventory"), function (err, result, fields) {
         if (err) throw err;
         var val = result[0].stock;
@@ -103,7 +101,7 @@ app.post('/removeDevice', (req, res)  =>{
      con.query(Q.delete_device(req));
 });
 
-app.post('/sendorder'(req, res)  =>{
+app.post('/sendorder', (req, res)  =>{
      // -> reservation: deviceid, officeid, floor, employeeid
      con.query("select max(deviceid) from abc.devices", function(err, result, fields){
        if (err) throw err;
@@ -131,13 +129,49 @@ app.post('/sendorder'(req, res)  =>{
      con.query(Q.delete_device(req));
 });
 
-app.post('/newOffice', (req, res)  =>{'
+app.post('/newOffice', (req, res)  =>{
   con.query(Q.add_new_office(req));
 })
 
-app.post('deleteOffice'(req, res)  =>{'
-  con.query(Q.add_new_office(req));
+app.post('deleteOffice'(req, res)  =>{
+  con.query(Q.delete_office(req));
 });
+
+
+app.post('/addToReservation', (req, res) => {
+  con.query(Q.insert_reservation(req));
+});
+
+app.post('/addReservation', (req, res) => {
+  con.query(Q.updateReservation(req));
+});
+
+app.post('/removeReseration', (req, res) => {
+  con.query(Q.delete_reservation(req));
+});
+
+app.post('/addMaintenanceStatus', (req, res) => {
+  con.query(Q.insert_maintenance(req));
+});
+
+app.post('/removeMaintanenceStatus', (req, res) => {
+  con.query(Q.delete_maintanence(req));
+});
+
+app.get('/viewTable', (req, res) => {
+  con.query(Q.select(req['cols'], req['table'], req['cond']), function(err, result, fields){
+    if (err) throw err;
+    res.send(result);
+  })
+});
+
+app.get('/viewJointTable', (req, res) => {
+  con.query(Q.join(req['cols'], req['tables'], req['fields'], req['conds'], req['type']), function(err, result, fields){
+    if (err) throw err;
+    res.send(result);
+  })
+});
+
 
 app.get('/' , (req, res)  =>{
     var list = [1,2,3];
