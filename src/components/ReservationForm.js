@@ -1,21 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from './Button';
 
-const navBarDefaultStyle = {
-    display:"flex",
-    flexDirection: "column",
-    justifyContent: "center",
-}
-
-const backdropStyle = {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    padding: 50,
-}
 
 const modalStyle = {
     backgroundColor: '#fff',
@@ -39,19 +24,19 @@ export class ReservationForm extends Component {
         event.preventDefault();
         const data = new FormData(event.target);
 
-        // fetch("http://localhost:5000/postReservation", {
-        //     method: "post",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
+        fetch("http://localhost:5000/postReservation", {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
 
-        //     //make sure to serialize your JSON body
-        //     body: JSON.stringify(data)
-        //     })
-        //     .then( (response) => { 
-        //     //do something awesome that makes the world a better place
-        //     });
+            //make sure to serialize your JSON body
+            body: JSON.stringify(data)
+            })
+            .then( (response) => { 
+            //do something awesome that makes the world a better place
+            });
         console.log(data.keys)
         console.log(data.values)
 
@@ -67,8 +52,10 @@ export class ReservationForm extends Component {
     
     render() {
             return (<div style={modalStyle}>
-                        <div>
-                            Reservation Form
+                        <div className="form-header">
+                            <div></div>
+                            <div className="form-title">Reservation Form</div>
+                            <button className="close-button" onClick={this.props.onClick}>close</button>
                         </div>
                         <hr/>
                         <form >
@@ -79,7 +66,7 @@ export class ReservationForm extends Component {
                             <input placeholder="Event location" name="elocation" /><br/>
                             
                             
-                            <Button onClick={this.postReservation} style={{padding:"10px"}} title="Submit"/>
+                            <Button onClick={this.postReservation} class="form-button" title="Submit"/>
                         </form>
                 </div>);
         

@@ -2,27 +2,9 @@ import React, { Component } from 'react';
 
 import './App.css';
 import { Button } from './components/Button';
-import { NavBar } from './components/NavBar';
+
 import { LoginModal } from './components/LoginModal'
 import { Body } from './components/body';
-
-
-const headerStyle = {
-  width: '100%',
-  height: 50,
-  backgroundColor: 'black',
-
-}
-
-const homeButtonStyle = {
-  float: 'left',
-}
-
-const loginButtonStyle = {
-  float: 'right',
-}
-
-
 
 class App extends Component {
   constructor() {
@@ -35,6 +17,8 @@ class App extends Component {
     }
     this.changeShow = this.changeShow.bind(this);
     this.changeTab = this.changeTab.bind(this);
+    this.logout = this.logout.bind(this);
+    this.login = this.login.bind(this)
   }
 
   componentDidMount() {
@@ -81,14 +65,28 @@ class App extends Component {
     
   }
 
+  logout() {
+    let bool = !this.state.loggedIn
+    this.setState({
+      loggedIn: bool,
+    })
+  }
+
+  login() {
+    let bool = !this.state.loggedIn
+    this.setState({
+      loggedIn: bool,
+    })
+  }
+
   render() {
     if (this.state.loggedIn)
     {
       return (
           <div className="App">
-            
-            <div style={headerStyle}>
-                <Button style={homeButtonStyle} onClick={this.changeTab} tab={this.state.tab} title="home"/>
+            <div className="header-bar" >
+                <div ><div className="logo">ABC Group</div></div> 
+                <Button className="right-button" onClick={this.logout} tab={this.state.tab} title="Logout"/>
             </div>
             <Body tab={this.state.tab}/>
         </div>
@@ -98,11 +96,11 @@ class App extends Component {
       return (
         <body className="homePage">
           <div className="App">
-            <div style={headerStyle}>
-               <div className="logo ">ABC Group</div> 
-              <Button style={loginButtonStyle} onClick={this.changeShow} title="Login"/>
+            <div className="header-bar" >
+              <div ><div className="logo">ABC Group</div></div> 
+              <Button  onClick={this.changeShow} title="Login"/>
             </div>
-            <LoginModal show={this.state.show} onClose={this.changeShow}/>
+            <LoginModal onClick={this.login} show={this.state.show} onClose={this.changeShow}/>
           </div>
         </body>
       );

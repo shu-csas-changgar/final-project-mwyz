@@ -6,32 +6,21 @@ import { DeleteReservationForm } from './DeleteReservation';
 import { EditReservationForm } from './EditReservation';
 import { Table } from './Table';
 import { DynamicModal } from './DynamicModal';
-import { NONAME } from 'dns';
 
-const navBarDefaultStyle = {
-    display:"flex",
-    flexDirection: "column",
-    justifyContent: "center",
-}
 
-const backdropStyle = {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    padding: 50,
-}
-
-const modalStyle = {
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    maxWidth: 500,
-    minHeight: 300,
-    margin: '0 auto',
-    padding: 30,
-    position: 'relative',
+const hoverStyle = {
+    backgroundColor:"white",
+	opacity: 0.75,
+	height: 50,
+	width: 140,
+    border: "none",
+    borderColor: "white",
+	color:"black",
+	textAlign: "center",
+	textDecoration: "none",
+	display: "inline-block",
+    fontSize: "16px",
+    borderWidth: "1px",
 }
 
 export class Body extends Component {
@@ -42,12 +31,15 @@ export class Body extends Component {
             show: false,
             type: "none",
             selected: [],
+            table: "Items",
         }
         this.changeShow = this.changeShow.bind(this)
         this.showDelete = this.showDelete.bind(this)
         this.showCreate = this.showCreate.bind(this)
         this.showEdit = this.ShowEdit.bind(this)
         this.setSelected = this.setSelected.bind(this)
+        this.reservationTable = this.reservationTable.bind(this)
+        this.itemTable = this.itemTable.bind(this)
         
     }
 
@@ -99,23 +91,34 @@ export class Body extends Component {
             type: "edit"
         })
     }
+
+    reservationTable() {
+        this.setState({
+            table: "Reservations"
+        })
+    }
+
+    itemTable() {
+        this.setState({
+            table: "Items"
+        })
+    }
     
       
     
     render() {
-        console.log(this.state.selected)
-        if (this.props.tab == 1) 
+        if (this.props.tab === 1) 
         {
             return <CheckReservationForm />;
-        } else if (this.props.tab == 2)
+        } else if (this.props.tab === 2)
         {
             return <DeleteReservationForm />;
         }
-        else if (this.props.tab == 3)
+        else if (this.props.tab === 3)
         {
             return (<ReservationForm />);
         }
-        else if (this.props.tab == 4)
+        else if (this.props.tab === 4)
         {
             return <EditReservationForm />;
         }
@@ -125,17 +128,15 @@ export class Body extends Component {
                 <div className="table">
                     <div className="table-toolbar">
                         <div className="toolbar-left">
-                            <Button class="toolbar-button" title="Items"/>
-                            <Button title="Employees" />
-                            <Button title="Reservations" />
+                            <Button style={this.state.table === "Items" ? hoverStyle : null} onClick={this.itemTable} class="toolbar-button" title="Items"/>
+                            <Button style={this.state.table === "Reservations" ? hoverStyle : null} onClick={this.reservationTable} title="Reservations" />
                         </div>
                         <div className="toolbar-right">
                             <Button title="Create +" onClick={this.showCreate}/>
-                            <Button title="Delete" onClick={this.showDelete} />
                         </div>
                     </div>
                     
-                    <Table onClick={this.setSelected}/>
+                    <Table type={this.state.table} onClick={this.setSelected}/>
                 </div>
                 <DynamicModal selected={this.state.selected} onClick={this.changeShow} show={this.state.show} type={this.state.type}/>
             </div>

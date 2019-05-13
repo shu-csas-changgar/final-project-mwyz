@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../stylesheets/table.css'
-import { Button } from './Button';
 
 
 
@@ -17,28 +16,29 @@ export class Table extends Component {
         let headers = x;
         let row = [];
         for (let i = 0; i < headers.length; i++) {
-            console.log(i)
             let col = headers[i];
-            row.push(<th>{col}</th>)
+            row.push(<th key={i}>{col}</th>)
         }
         return (<tr>{row}</tr>);
     }
 
 
-    renderRow(x) {
+    renderRow(x, index) {
         let data = x;
         let row = [];
         for (let i = 0; i < data.length; i++) {
             let col = data[i];
-            row.push(<th>{col}</th>)
+            row.push(<th key={i}>{col}</th>)
         }
-        return (<tr onClick={this.clicked}>{row}</tr>);
+        return (<tr key={index} onClick={this.clicked}>{row}</tr>);
     }
     renderTableBody(x) {
         let body = x;
         let table = [];
+        let index = 0;
         for (let i = 0; i < body.length; i++){
-            table.push(this.renderRow(body[i]))
+            table.push(this.renderRow(body[i], index))
+            index++
         }
         
         return (<tbody>{table}</tbody>);
@@ -53,18 +53,39 @@ export class Table extends Component {
     }
 
     render() {
-        let headers = ["Item", "Item ID", "employee", "Return Date", "Address"]
-        let body = [["a","a","a","a","a"],["b","b","b","b","b"],["c","c","c","c","c"]];
-        return (<div>
-            <table>
-                <thead>
-                    {this.renderTableHeaders(headers)}
-                </thead>
-                  
-                {this.renderTableBody(body)}
-                
-            </table>
-        </div>);
+        
+        if (this.props.type === "Items")
+        {
+            let headers = ["Item", "Item ID", "employee", "Return Date", "Address"]
+            let body = [["a","a","a","a","a"],["b","b","b","b","b"],["c","c","c","c","c"]];
+            return (<div>
+                <table>
+                    <thead>
+                        {this.renderTableHeaders(headers)}
+                    </thead>
+                      
+                    {this.renderTableBody(body)}
+                    
+                </table>
+            </div>);
+        } else if (this.props.type === "Reservations") {
+            let headers = ["Reservation", "office ID", "employee ID", "Date", "Duration"]
+            let body = [["a","a","a","a","a"],["b","b","b","b","b"],["c","c","c","c","c"]];
+            return (<div>
+                <table>
+                    <thead>
+                        {this.renderTableHeaders(headers)}
+                    </thead>
+                      
+                    {this.renderTableBody(body)}
+                    
+                </table>
+            </div>);
+        }
+        else {
+            return null
+        }
+        
     }
 }
 

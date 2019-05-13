@@ -11,11 +11,36 @@
 
 .logo {
   color: white;
-  float: left;
   height: 100%;
   align-items: center;
   text-align: center;
   display: flex;
+}
+
+.form-header {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-button {
+  padding: 10px;
+}
+
+.close-button {
+  border: none;
+  color: black;
+  background-color: white;
+
+}
+
+.header-bar {
+  width: 100%;
+  height: 50;
+  color: black;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
 }
 
 .toolbar-left {
@@ -38,6 +63,14 @@
  tbody tr:hover {
    background-color:gray;
  }
+
+ .right-button {
+  float: 'right',
+ }
+
+.form-title {
+ text-align: center;
+}
 
 .homePage {
   

@@ -51,10 +51,10 @@ export class NavBar extends Component {
 
     render() {
         return (<nav style={navBarDefaultStyle}>
-            <Button onClick={this.checkReservation} style={this.props.tab == 1 ? activeButtonStyle : null} title="check reservation"/>
-            <Button onClick={this.deleteReservation} style={this.props.tab == 2 ? activeButtonStyle : null} title="delete reservation"/>
-            <Button onClick={this.makeReservation} style={this.props.tab == 3 ? activeButtonStyle : null} title="make reservation"/>
-            <Button onClick={this.editReservation} style={this.props.tab == 4 ? activeButtonStyle : null} title="edit reservation"/>
+            <Button onClick={this.checkReservation} style={this.props.tab === 1 ? activeButtonStyle : null} title="check reservation"/>
+            <Button onClick={this.deleteReservation} style={this.props.tab === 2 ? activeButtonStyle : null} title="delete reservation"/>
+            <Button onClick={this.makeReservation} style={this.props.tab === 3 ? activeButtonStyle : null} title="make reservation"/>
+            <Button onClick={this.editReservation} style={this.props.tab === 4 ? activeButtonStyle : null} title="edit reservation"/>
         </nav>);
     }
 
