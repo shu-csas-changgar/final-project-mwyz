@@ -115,8 +115,8 @@ class App extends Component {
     {
       return (
           <div className="App">
+            
             <div style={headerStyle}>
-                <NavBar onClick={this.changeTab} tab={this.state.tab}/>
                 <Button style={homeButtonStyle} onClick={this.changeTab} tab={this.state.tab} title="home"/>
             </div>
             <Body tab={this.state.tab}/>
@@ -128,7 +128,7 @@ class App extends Component {
         <body className="homePage">
           <div className="App">
             <div style={headerStyle}>
-              
+               <div className="logo ">ABC Group</div> 
               <Button style={loginButtonStyle} onClick={this.changeShow} title="Login"/>
             </div>
             <LoginModal show={this.state.show} onClose={this.changeShow}/>

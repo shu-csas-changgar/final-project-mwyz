@@ -1,21 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from './Button';
 
-const navBarDefaultStyle = {
-    display:"flex",
-    flexDirection: "column",
-    justifyContent: "center",
-}
-
-const backdropStyle = {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    padding: 50,
-}
 
 const modalStyle = {
     backgroundColor: '#fff',
@@ -35,9 +20,13 @@ export class DeleteReservationForm extends Component {
     
     render() {
             return (<div style={modalStyle}>
+                    <div>
+                            Delete Form
+                    </div>
+                    <hr/>
                     <form >
                         <input placeholder="Reservation ID" /><br/>
-                        <Button style={{padding:"10px"}} title="submit"/>
+                        <Button onClick={this.props.onClick} style={{padding:"10px"}} title="submit"/>
                     </form>
                 </div>);
         

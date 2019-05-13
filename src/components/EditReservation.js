@@ -31,18 +31,22 @@ const modalStyle = {
 export class EditReservationForm extends Component {
 
     
-
+    
     
     render() {
             return (<div style={modalStyle}>
+                    <div>
+                            Edit Form
+                    </div>
+                    <hr/>
                     <form >
-                        <input placeholder="reservation ID" /><br/>
+                        <input placeholder="reservation ID" value="a"/><br/>
                         <input placeholder="Employee Name" /><br/>
                         <input placeholder="Date" /><br/>
                         <input placeholder="email" /><br/>
                         <input placeholder="Event Name" /><br/>
                         <input placeholder="Event location" /><br/>
-                        <Button style={{padding:"10px"}} title="submit"/>
+                        <Button onClick={this.props.onClick} style={{padding:"10px"}} title="submit"/>
                     </form>
                 </div>);
         

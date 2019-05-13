@@ -30,36 +30,57 @@ const modalStyle = {
 
 export class ReservationForm extends Component {
 
+    constructor(props) {
+        super(props)
+        
+        this.postReservation = this.postReservation.bind(this)
+    }
     postReservation(event) {
         event.preventDefault();
         const data = new FormData(event.target);
 
-        fetch("http://localhost:5000/postReservation", {
-            method: "post",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+        // fetch("http://localhost:5000/postReservation", {
+        //     method: "post",
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
 
-            //make sure to serialize your JSON body
-            body: JSON.stringify(data)
-            })
-            .then( (response) => { 
-            //do something awesome that makes the world a better place
-            });
+        //     //make sure to serialize your JSON body
+        //     body: JSON.stringify(data)
+        //     })
+        //     .then( (response) => { 
+        //     //do something awesome that makes the world a better place
+        //     });
+        console.log(data.keys)
+        console.log(data.values)
+
+        var object = {};
+        data.forEach(function(value, key){
+            object[key] = value;
+        });
+        var json = JSON.stringify(object);
+        console.log(json)
+        this.props.onClick()
 }
 
     
     render() {
             return (<div style={modalStyle}>
-                    <form onSubmit={this.postReservation}>
-                        <input placeholder="Employee Name" /><br/>
-                        <input placeholder="Date" /><br/>
-                        <input placeholder="email" /><br/>
-                        <input placeholder="Event Name" /><br/>
-                        <input placeholder="Event location" /><br/>
-                        <Button style={{padding:"10px"}} title="submit"/>
-                    </form>
+                        <div>
+                            Reservation Form
+                        </div>
+                        <hr/>
+                        <form >
+                            <input placeholder="Employee Name" name="employee" /><br/>
+                            <input placeholder="Date"  name="date" /><br/>
+                            <input placeholder="email" name="email" /><br/>
+                            <input placeholder="Event Name" name="ename" /><br/>
+                            <input placeholder="Event location" name="elocation" /><br/>
+                            
+                            
+                            <Button onClick={this.postReservation} style={{padding:"10px"}} title="Submit"/>
+                        </form>
                 </div>);
         
     }
