@@ -20,15 +20,11 @@ class Query{
 
   //DADI
   contains_city(dct){
-<<<<<<< HEAD
-    return "select cityid from city where name = " +"\'" + dct["city"] +"\';";
-=======
     return "select cityid from city where name = " + dct["city"] + ";";
   }
 
   contains_office(dct){
     return "select officeid from office where address = " + dct["address"] + ";";
->>>>>>> 3febcd451617ffd5e155a33c998a21b93112c83d
   }
 
   contains_country(dct){
@@ -103,13 +99,8 @@ class Query{
   add_vendor(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-<<<<<<< HEAD
-    return "insert into abc.vendor values("+dct["name"]+"\',"+dct["deviceid"]+","+
-    "\'"+dct["startdate"]+"\',\'"+dct["enddate"]+"\',\'"+datetime+"\');";
-=======
     return "insert into abc.vendor (name, deviceid, startdate, expirydate, updated) values("+"\'"+dct["name"]+"\',"+"\'"+dct["deviceid"]+"\'"+","+
     "\'"+dct["startdate"]+"\',\'"+dct["enddate"]+"\',\'"+datetime+"\'"+");";
->>>>>>> 3febcd451617ffd5e155a33c998a21b93112c83d
   }
 
 
@@ -264,10 +255,6 @@ class Query{
 }
 
 var Q = new Query();
-<<<<<<< HEAD
-console.log(Q.delete_office({"officeid": "12321", "city": "wayne", "deviceid": "34534", "country": "USA", "amount": "111", "deviceTypeid": "222", "devicetype": "comp", "employeeid": "47347543", "duration": "20", "availability": "1", "updated": "yes"}));
-=======
 console.log(Q.add_device({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
 console.log(Q.select(["devicetypeid"], "deviceTypes", ["devicetype = 'laptop'"]));
->>>>>>> 3febcd451617ffd5e155a33c998a21b93112c83d
 module.exports = Query;
