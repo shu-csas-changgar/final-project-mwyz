@@ -8,23 +8,35 @@ class Query{
   create_new_user(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.employee values("+dct["fname"]+"\'"+","+"\'"+dct["lname"]+"\'"+","+"\'"+dct["email"]+"\'"+","+dct["phone"]+","
-    +dct["officeid"]+","+"\'"+dct["password"]+"\'"+","+"\'"+dct["address"]+"\'"+","+dct["cityid"]+","+dct["countryid"]+"," + "\'"+datetime +"\'"+");";
+    return "insert into abc.employee (firstname, lastname, email, phonenumber, officeid, password, address, cityid, countryid, updated) values("+ "\'"+ dct["fname"]+"\'"+","+"\'"+dct["lname"]+"\'"+","+"\'"+dct["email"]+"\'"+","+ "\'"+ dct["phone"]+ "\'"+ ","
+    + "\'"+ dct["officeid"]+ "\'"+ ","+"\'"+dct["password"]+"\'"+","+"\'"+dct["address"]+"\'"+"," + "\'" + dct["cityid"]+ "\'"+ ","+ "\'"+ dct["countryid"]+ "\'"+"," + "\'"+datetime +"\'"+");";
   }
  //city, zip
   insert_city(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.city values("+dct["city"]+"\'"+","+dct["zip"]+","+ "\'"+datetime+"\'"+"); ";
+    return "insert into abc.city (name, zipcode, updated) values("+"\'"+dct["city"]+"\'"+","+"\'"+dct["zip"]+"\'"+","+ "\'"+datetime+"\'"+"); ";
   }
 
   //DADI
   contains_city(dct){
+<<<<<<< HEAD
     return "select cityid from city where name = " +"\'" + dct["city"] +"\';";
+=======
+    return "select cityid from city where name = " + dct["city"] + ";";
+  }
+
+  contains_office(dct){
+    return "select officeid from office where address = " + dct["address"] + ";";
+>>>>>>> 3febcd451617ffd5e155a33c998a21b93112c83d
   }
 
   contains_country(dct){
-    return "select cityid from country where name = " + dct["city"];
+    return "select countryid from country where name = " + "\'"+ dct["city"] + "\'"+ ";";
+  }
+
+  contains_deviceType(dct){
+    return "select devicetypeid from devicetypes where devicetype = " + "\'"+ dct["devicetype"] + "\'"+ ";";
   }
 
   //country
@@ -39,8 +51,8 @@ class Query{
   insert_assignment(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.deviceassignment values("+dct["deviceid"]+","+dct["officeid"]+","+dct["floor"]+","
-    +dct["empid"]+"\'"+datetime+"\'"+"); ";
+    return "insert into abc.deviceassignment (deviceid, officeid, floor, employeeid, updated) values("+"\'"+dct["deviceid"]+"\'"+","+"\'"+dct["officeid"]+"\'"+","+"\'"+dct["floor"]+"\'"+","
+    +"\'"+dct["empid"]+"\'"+ ", " + "\'"+datetime+"\'"+"); ";
   }
 
   // deviceid, , officeid, duration
@@ -52,32 +64,32 @@ class Query{
             "Duration, Availability, Updated) values(" + dct["deviceid"] + ", " + dct["officeid"] + ", " + "\'" + dct["devicetype"] + "\'" + ", " + dct["employeeid"] + ", "  + "\'" + datetime + "\'" + ", " + dct["duration"] + ", " + dct["availability"] + ", "  + "\'" + datetime + "\'" + ");";
   }
 
-  //deviceid, devicetype, empid, issue, components, price
+  //deviceid, devicetype, officeid, empid, issue, components, price
   insert_maintenance(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-    return "insert into abc.maintenance values(" + dct["deviceid"] + "," +dct["deviceTypeid"] + "," +dct["empid"]
-  + "," + dct["issue"] + "," +dct["components"] + "," + dct["price"] + "," + "\'" + datetime + "\'" + "); " ;
+    return "insert into abc.maintenance (DeviceID, officeid, devicetype, employeeid, problem, component, price, updated) values(" + "\'"+ dct["deviceid"] + "\'"+ "," + "\'"+ dct["officeid"] + "\'"+ "," + "\'"+ dct["deviceTypeid"] + "\'"+ "," + "\'"+dct["empid"]
+  + "\'"+"," + "\'"+dct["issue"] + "\'"+"," +"\'"+dct["components"] +"\'"+ "," + "\'"+dct["price"] +"\'"+ "," + "\'" + datetime + "\'" + "); " ;
   }
 // employeeid, deviceType, deviceTypeid
   add_device(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.device values("+dct["deviceTypeid"]+", "+ "1" +" ,"
-  +"\'"+datetime+"\'"+"); ";
+    return "insert into abc.devices (devicetypeid, leased, employeeid, updated) values("+"\'"+dct["deviceTypeid"]+"\'"+", "+ "'1'" +" ,"
+  + "\'"+ dct["empid"] + "\'"+ ","+"\'"+datetime+"\'"+"); ";
   }
 
 // deviceType
   add_device_type(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.device values("+dct["deviceType"]+","+"\'"+datetime+"\'"+");";
+    return "insert into abc.devicetypes (devicetype, updated) values("+"\'"+dct["deviceType"]+"\'"+","+"\'"+datetime+"\'"+");";
   }
 // deviceType, stock
-   addDevice2Inventory(){
+   addDevice2Inventory(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
-    return "insert into abc.inventory values("+dct["stock"]+" , 0"
+    return "insert into abc.inventory (stock, required, updated) values("+"\'"+dct["stock"]+"\'"+"," + "\'"+ "0' ,"
   +"\'"+datetime+"\'"+");";
   }
 // address, cityid, countryid
@@ -91,9 +103,17 @@ class Query{
   add_vendor(dct){
     var dt = new Date();
     var datetime = dt.toISOString().substr(0, 10) + " " + dt.toTimeString().substr(0, 8);
+<<<<<<< HEAD
     return "insert into abc.vendor values("+dct["name"]+"\',"+dct["deviceid"]+","+
     "\'"+dct["startdate"]+"\',\'"+dct["enddate"]+"\',\'"+datetime+"\');";
+=======
+    return "insert into abc.vendor (name, deviceid, startdate, expirydate, updated) values("+"\'"+dct["name"]+"\',"+"\'"+dct["deviceid"]+"\'"+","+
+    "\'"+dct["startdate"]+"\',\'"+dct["enddate"]+"\',\'"+datetime+"\'"+");";
+>>>>>>> 3febcd451617ffd5e155a33c998a21b93112c83d
   }
+
+
+  // "-------------------------------------------------------"
 // deviceTypeid, amount
 //DADI
   updateStock(dct){
@@ -124,7 +144,7 @@ class Query{
 
   getNewVendorID(){ return "select max(v.vendorid) from abc.vendor v;";}
 
-  select(cols, table){
+  select(cols, table, conditions=[]){
     if(cols == "*"){
       return "select * from " + this.database +"."+ table +";";
     }
@@ -134,7 +154,13 @@ class Query{
     for(var i = 0; i < cols.length-1; i++){
       query += (id+"."+cols[i] + ", ");
     }
-    query += (id+"."+cols[cols.length-1] + " from " + this.database +"."+ table + ";");
+    query += (id+"."+cols[cols.length-1] + " from " + this.database +"."+ table +" "+ id);
+
+    query += " where ";
+    for(var i = 0; i < conditions.length - 1; i++){
+          query += conditions[i] + " and ";
+      }
+    query += conditions[conditions.length-1] + ";";
     return query;
   }
 
@@ -172,7 +198,7 @@ class Query{
     delete_employee(dct){
       var dt = new Date();
       var datetime = dt.toISOString().substr(0,10) + " " + dt.toTimeString().substr(0,8);
-      return "delete from abc.employee where employeeid = "+ dct["empid"] +"; "+
+      return "delete from abc.employee where employeeid = "+ "\'"+dct["empid"] +"\'"+"; "+
        "delete from abc.maintenance where employeeid = "+ dct["empid"] +"; "+
        "delete from abc.reservation where employeeid = "+ dct["empid"] +"; "+
        "delete from abc.devices where employeeid = "+ dct["empid"] +"; "+
@@ -213,7 +239,7 @@ class Query{
   // joined_fields and tables have to be in the same order,
   // ex: joined_cols - ["e.employee_id = d.employee_id", ...]
   //conditions - list of conditions
-  join(cols, tables, joined_fields, conditions, type='join'){
+  join(cols, tables, joined_fields, conditions=[], type='join'){
     if(cols == "*"){
       var query = "select * ";
     }else{
@@ -238,5 +264,10 @@ class Query{
 }
 
 var Q = new Query();
+<<<<<<< HEAD
 console.log(Q.delete_office({"officeid": "12321", "city": "wayne", "deviceid": "34534", "country": "USA", "amount": "111", "deviceTypeid": "222", "devicetype": "comp", "employeeid": "47347543", "duration": "20", "availability": "1", "updated": "yes"}));
+=======
+console.log(Q.add_device({"vendor": "sdf", "stock": "500","deviceType": "laptop", "deviceid": "325", "officeid": "34", "deviceTypeid": "laptop", "empid": "32", "issue" : "werwer", "components": "sfd" ,"price": "35435"}));
+console.log(Q.select(["devicetypeid"], "deviceTypes", ["devicetype = 'laptop'"]));
+>>>>>>> 3febcd451617ffd5e155a33c998a21b93112c83d
 module.exports = Query;
