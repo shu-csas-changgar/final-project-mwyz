@@ -34,26 +34,26 @@ console.log(con.query(Q.select("*", "city")));
 //register user
 app.post("/submit-registration", (req, res) => {
 
-  if(con.query(Q.contains_city(req), function (err, result, fields) {
+  con.query(Q.contains_city(req), function (err, result, fields) {
     if (err) throw err;
-    var b1 = result[0].cityid;
-    if(b1 == null){
+    var b1 = result[0]
+    if(b1.length == 0){
       con.query(Q.insert_city(req));
     }
-  });)
+  });
 
-  if(con.query(Q.contains_country(req), function (err, result, fields) {
+  con.query(Q.contains_country(req), function (err, result, fields) {
     if (err) throw err;
-    var b1 = result[0].countyid;
-    if(b1 == null){
+    var b1 = result;
+    if(b1.length == 0){
       con.query(Q.insert_country(req));
     }
-  });)
+  });
 
   Q.create_new_user(req);
   if(!req["hasDevice?"]){
     con.query(Q.insert_assignment(req));
-    con.query(Q.select(["devicetypeid"], "deviceTypeid", "devicetypes=laptop"), function (err, result, fields) {
+    con.query(Q.select(["devicetypeid"], "deviceTypes", "devicetypes=laptop"), function (err, result, fields) {
       if (err) throw err;
       var tid = result[0].deviceTypeid;
     });
@@ -81,19 +81,62 @@ app.post("/submit-registration", (req, res) => {
   res.send("New user added.");
 });
 
-app.get('/register-device' , (req, res)  =>{
+app.post('/register-device' , (req, res)  =>{
   con.query(Q.add_device(req));
   con.query(Q.insert_assignment(req));
-  if(con.query(Q.contains_deviceType(req), function (err, result, fields) {
+  con.query(Q.contains_deviceType(req), function (err, result, fields) {
     if (err) throw err;
-    var b1 = result[0].devicetypeid;
-    if(b1 == null){
+    var b1 = result;
+    if(b1.length == 0){
       con.query(Q.add_device_type(req));
     }
-  });)
+  });
+});
 
+app.post('/removeEmployee' , (req, res)  =>{
+     // -> reservation: deviceid, officeid, floor, employeeid
+     con.query(Q.delete_employee(req));
+});
 
+app.post('/removeDevice', (req, res)  =>{
+     // -> reservation: deviceid, officeid, floor, employeeid
+     con.query(Q.delete_device(req));
+});
 
+app.post('/sendorder'(req, res)  =>{
+     // -> reservation: deviceid, officeid, floor, employeeid
+     con.query("select max(deviceid) from abc.devices", function(err, result, fields){
+       if (err) throw err;
+       var max_id = result;
+     })
+
+     for(var i = 1; i <= req['amount']; i++){
+       req['deviceid'] = max_id + i;
+       con.query(Q.add_vendor(req));
+     }
+
+     con.query(Q.select(["devicetypeid"], "deviceTypes", "devicetypes=laptop"), function (err, result, fields) {
+       if (err) throw err;
+       var tid = result[0].deviceTypeid;
+
+       con.query(Q.select(["devicetypeid"], "inventory", "devicetypeid="+tid), function (err, result, fields) {
+         if (err) throw err;
+         var b = result;
+         if(b.length == 0){
+           con.query(Q.addDevice2Inventory(req));
+         }
+         con.query(Q.updateStock(req))
+       });
+       });
+     con.query(Q.delete_device(req));
+});
+
+app.post('/newOffice', (req, res)  =>{'
+  con.query(Q.add_new_office(req));
+})
+
+app.post('deleteOffice'(req, res)  =>{'
+  con.query(Q.add_new_office(req));
 });
 
 app.get('/' , (req, res)  =>{
