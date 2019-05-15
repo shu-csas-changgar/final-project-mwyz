@@ -1,0 +1,37 @@
+Project Documentation
+
+Work Division:
+-	Wilbert was entirely in charge of the front-end design
+-	Yohan initially created the EER model, and Matt made the changes that followed. Final editions were made by Yohan to write the tablescript.sql file to create our database.
+-	Yohan created the Connector class to establish the connection with Wilbert’s front-end work; he also created the template for the SQLQuery 
+-	Matt and Zane worked to populate the SQLQuery class with insert, contains, delete, and update methods which translated into MySQL commands as string outputs.
+-	Connector class has forms that needed to have its querys checked, so Zane manually checked all of the commands into MySQL to make any necessary changes and improvements to our forms and functions in the Connector class
+-	Matt and Zane’s computers were mainly used for testing because for some reason, the two computers connected to the database and server without problems, so the two computers were dedicated to mostly testing functions and connection with the server/database.
+-	Yohan was basically the team leader, designing and preparing templates and models that we were able to follow.
+-	In summary, Yohan was the leader with designs and templates, Wilbert was the front-end designer, and Matt and Zane populated class with proper functions (and translations of those functions) and tests.  
+
+List of open issues and possible extensions
+-	An issue may arise due to an error in connecting the front-end to the back-end 
+-	Due to lack of data, some delete methods may function slightly different than originally intended. 
+-	 An unintentional oversight of the usefulness of the EER model due to duplication of column errors: although it helped us shape the direction and approach of our program, we relied heavily on the database and code rather than referring back to the EER model. Hence why the slight disconnect between the EER model and how we manipulated data. We definitely overlooked the importance of designing by focusing/relying too much on the tablescript file rather than working on our initial model and its relationships. 
+
+Design decisions
+-	Main query class—relevant queries
+-	Connector—front to back
+o	14 methods to connect to forms 
+o	Create new users, reservations, and to send new orders for new inventory. 
+-	Made a testing class to specifically test out functions so that they translated properly from Javascript to MySql. To basically test out the queries separate from the front-end.
+Specify info needed for different entities 
+-	SQLQuery class
+o	Contains our methods
+	Has methods like add, insert, delete, update, select, and join for different tables. 
+o	Takes an input and translates javascript input to output a String of mysql query commands
+Reservations
+Conceptual constraints; type restrictions 
+-	Cannot have duplicate ID’s to be stored
+-	Not many type restrictions other than ID’s (ints) vs. Strings vs. datetime.
+-	For deleting methods, we obviously made sure that only correlated values were affected
+o	Ex: when deleting an office, we would delete all device assignments, employees, and reservations related, and then update those values. 
+o	Ex: also, when an employee is removed, we would remove maintenance, reservation, device assignments, and devices related to that employee. 
+-	Same applies for adding/inserting/updating methods that’ll increment or change only the appropriate values.
+-	
